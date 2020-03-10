@@ -1,0 +1,113 @@
+commit 7885c90f48ff1a238ee984ff422aa0e7efbaf10d
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 19:10:48 2020 +0200
+
+    poistettu ja muutettu nimeä
+
+ tiedostoja/file2.txt                 | 0
+ tiedostoja/{file1.txt => file22.txt} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit fcf56062f0f1119f0c3b95e6ff39fec86bec19dd
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 19:07:28 2020 +0200
+
+    hakemisto ja tiedostoja
+
+ eka.txt              | 4 ++--
+ tiedostoja/file1.txt | 0
+ tiedostoja/file2.txt | 0
+ tiedostoja/file3.txt | 0
+ 4 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 1fda4af7f26fcd3c0d67303394bc21bc9e614b98
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 18:45:06 2020 +0200
+
+    tiedosto.txt nimen muutos
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit a3730399c110d2f5a89281573c463cffac8c302a
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 18:36:05 2020 +0200
+
+    toinen poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 9293f33bebd3bbf1d41fe11f40c436099c5541e1
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 18:31:42 2020 +0200
+
+    toinen lisäys
+
+ toinen.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 27a802bf9c2969317965889c6b45bb0f431782dc
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 18:24:01 2020 +0200
+
+    muutettu
+
+ tiedosto.txt | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+commit 88c713fae18ca33a2150dde497a968123ea1c81a
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 18:22:02 2020 +0200
+
+    paljon tekstiä
+
+ tiedosto.txt | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+commit ceef6f1cf45a71e74727e08e3434a967eda4ea23
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 18:06:03 2020 +0200
+
+    jotain lisätty
+
+ stuff/jokin.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 431e8ce8815afd06d7863e33c772413b9d834c7f
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 18:05:03 2020 +0200
+
+    muutoksia tiedostoissa
+
+ kolmas.txt   | 1 +
+ tiedosto.txt | 2 ++
+ 2 files changed, 3 insertions(+)
+
+commit 6effcdebb436341be33bbd8d3e4c2df47f6ef50d
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 18:03:38 2020 +0200
+
+    kolmas lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit d740f27bcb63bea33932c9c79aa9e67da9128aee
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 18:01:38 2020 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 4e4bab35df081dd1ce929c0fca1c64f8aae867d7
+Author: iPegii <hyper.vegeta@gmail.com>
+Date:   Tue Mar 10 17:55:58 2020 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
