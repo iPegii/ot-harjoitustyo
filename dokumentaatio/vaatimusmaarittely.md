@@ -12,6 +12,8 @@ Sovelluksen on tarkoitus mahdollistaa kulujen seuranta, omaa kulutusta pystyy se
 
  ## Käyttöliittymäluonnos
 
+ ![Luonnos](/dokumentaatio/kuvat/0.1-AloituskuvaKayttoliittymasta.png)
+
  ## Perusversion toiminnallisuus
 
 ### Ennen kirjautumista
