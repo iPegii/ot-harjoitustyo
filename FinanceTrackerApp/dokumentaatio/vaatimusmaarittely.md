@@ -12,7 +12,7 @@ Sovelluksen on tarkoitus mahdollistaa kulujen seuranta, omaa kulutusta pystyy se
 
  ## Käyttöliittymäluonnos
 
- ![Luonnos](/Harjoitustyö/dokumentaatio/kuvat/0.1-AloituskuvaKayttoliittymasta.png)
+ ![Luonnos](/FinanceTrackerApp/dokumentaatio/kuvat/0.1-AloituskuvaKayttoliittymasta.png)
 
  ## Perusversion toiminnallisuus
 
