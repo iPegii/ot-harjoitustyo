@@ -13,16 +13,22 @@ import java.util.stream.Collectors;
 public class FinanceDaoService {
     
     private List<Finance> finances;
-    private String file;
-    public FinanceDaoService(String file) {
+    private String fileName;
+    public FinanceDaoService(String fileName) {
         this.finances = new ArrayList<>();
-        this.file = file;
+        this.fileName = fileName;
         read();
     }
     
     public void read() {
+        
         try {
-            File file = new File("finances.txt");
+            File file = new File(fileName);
+            // make sure file exists
+            if(!file.exists()) {
+            file.createNewFile(); 
+            }
+            
             Scanner myReader = new Scanner(file);
             while(myReader.hasNextLine()) {
                 String[] parts = myReader.nextLine().split(";");
@@ -38,7 +44,7 @@ public class FinanceDaoService {
     
     public void save() {
         try {
-            FileWriter writer = new FileWriter(new File(file));
+            FileWriter writer = new FileWriter(new File(fileName));
             for(Finance f: finances) {
                 writer.write(f.getPrice()+";"+f.getEvent()+";"+f.getDate());
             }
