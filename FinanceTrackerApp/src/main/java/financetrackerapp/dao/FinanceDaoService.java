@@ -1,7 +1,7 @@
 
-package dao;
+package financetrackerapp.dao;
 
-import domain.Finance;
+import financetrackerapp.domain.Finance;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
-package dao;
+package financetrackerapp.dao;
 
-import domain.Finance;
+import financetrackerapp.domain.Finance;
 import java.util.List;
 
 public interface FinanceDao {

@@ -1,7 +1,7 @@
 
-package dao;
+package financetrackerapp.dao;
 
-import domain.User;
+import financetrackerapp.domain.User;
 import java.io.*;
 import java.util.*;
 

@@ -1,5 +1,5 @@
 
-package domain;
+package financetrackerapp.domain;
 
 public class User {
     

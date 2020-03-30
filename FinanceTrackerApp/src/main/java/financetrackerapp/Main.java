@@ -1,9 +1,11 @@
 
-import dao.FinanceDaoService;
-import domain.Finance;
+package financetrackerapp;
+
+import financetrackerapp.dao.FinanceDaoService;
+import financetrackerapp.domain.Finance;
 import java.util.List;
 import javafx.application.Application;
-import ui.FinanceUi;
+import financetrackerapp.ui.FinanceUi;
 
 
 public class Main {

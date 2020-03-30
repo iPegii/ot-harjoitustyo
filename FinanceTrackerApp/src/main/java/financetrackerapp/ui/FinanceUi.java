@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui;
+package financetrackerapp.ui;
 
 
-import domain.Finance;
+import financetrackerapp.domain.Finance;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
