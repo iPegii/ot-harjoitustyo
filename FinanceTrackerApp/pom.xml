@@ -41,7 +41,7 @@
                 <version>0.8.3</version>
                 <configuration>
                     <excludes>
-                        <exclude>todoapp/ui/**/*</exclude>
+                        <exclude>financetrackerapp/ui/**/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

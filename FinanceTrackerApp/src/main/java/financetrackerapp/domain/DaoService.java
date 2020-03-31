@@ -15,15 +15,7 @@ import java.util.List;
  */
 public class DaoService {
     
-    private FinanceDaoReader financeDao;
-    
     public DaoService() {
-        financeDao = new FinanceDaoReader("finances.txt");
+       
     }
-    
-    
-    public List<Finance> getAll() {
-        return financeDao.getAll();
-    }
-    
 }

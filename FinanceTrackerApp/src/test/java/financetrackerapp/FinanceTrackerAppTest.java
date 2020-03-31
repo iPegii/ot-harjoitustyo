@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  *
  * @author iPegii
  */
-public class FinanceDomainTest {
+public class FinanceTrackerAppTest {
     @Before
     public void setUp() {
     }
