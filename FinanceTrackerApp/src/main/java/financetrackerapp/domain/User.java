@@ -19,7 +19,7 @@ public class User {
         return this.username;
     }
     public String toString() {
-        return "name: " + name + ", username: " + username;
+        return username + ";" + name;
     }
     
     

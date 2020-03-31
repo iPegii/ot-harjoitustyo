@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-test coverage</actionName>
+            <displayName>test coverage</displayName>
+            <goals>
+                <goal>jacoco:report</goal>
+            </goals>
+        </action>
+    </actions>

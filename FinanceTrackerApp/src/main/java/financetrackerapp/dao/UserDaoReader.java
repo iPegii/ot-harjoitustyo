@@ -5,11 +5,11 @@ import financetrackerapp.domain.User;
 import java.io.*;
 import java.util.*;
 
-public class UserDaoService {
+public class UserDaoReader implements UserDao {
     
     private List<User> users;
     private String file;
-    public UserDaoService(String file) {
+    public UserDaoReader(String file) {
         this.users = new ArrayList<>();
         this.file = file;
         read();

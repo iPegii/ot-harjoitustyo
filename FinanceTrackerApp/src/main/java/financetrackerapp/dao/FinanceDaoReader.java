@@ -10,11 +10,11 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 
-public class FinanceDaoService {
+public class FinanceDaoReader implements FinanceDao {
     
     private List<Finance> finances;
     private String fileName;
-    public FinanceDaoService(String fileName) {
+    public FinanceDaoReader(String fileName) {
         this.finances = new ArrayList<>();
         this.fileName = fileName;
         read();
@@ -46,7 +46,7 @@ public class FinanceDaoService {
         try {
             FileWriter writer = new FileWriter(new File(fileName));
             for(Finance f: finances) {
-                writer.write(f.getPrice()+";"+f.getEvent()+";"+f.getDate());
+                writer.write(f.getPrice()+";"+f.getEvent()+";"+f.getDate() + "\n");
             }
             writer.close();
         } catch (Exception e) {

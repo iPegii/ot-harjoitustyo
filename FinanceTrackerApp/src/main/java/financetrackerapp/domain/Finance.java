@@ -27,7 +27,7 @@ public class Finance {
     }
     
     public String toString() {
-        return "price: " + price + ", event: " + event + ", date: " + date;
+        return price + ";" + event + ";" + date;
     }
     
 }
