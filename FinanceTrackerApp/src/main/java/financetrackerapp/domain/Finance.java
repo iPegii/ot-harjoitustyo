@@ -6,11 +6,13 @@ public class Finance {
     private String date;
     private String event;
     private int price;
+    private String username;
     
-    public Finance(int price, String event, String date) {
+    public Finance(String username, int price, String event, String date) {
         this.date = date;
         this.event = event;
         this.price = price;
+        this.username = username;
     }
     
     
@@ -26,8 +28,12 @@ public class Finance {
         return price;
     }
     
+    public String getUsername() {
+        return username;
+    }
+    
     public String toString() {
-        return price + ";" + event + ";" + date;
+        return username + ";" + price + ";" + event + ";" + date;
     }
     
 }

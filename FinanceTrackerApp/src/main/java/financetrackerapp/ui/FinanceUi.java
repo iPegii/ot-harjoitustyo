@@ -8,8 +8,19 @@ package financetrackerapp.ui;
 
 import financetrackerapp.dao.FinanceDao;
 import financetrackerapp.dao.FinanceDaoReader;
+import financetrackerapp.dao.UserDao;
+import financetrackerapp.dao.UserDaoReader;
+import financetrackerapp.domain.DaoService;
 import financetrackerapp.domain.Finance;
+import financetrackerapp.domain.User;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -32,19 +43,54 @@ import javafx.stage.Stage;
         
 public class FinanceUi extends Application {
     
+    private DaoService daoService;
+    
+    @Override
+    public void init() {
+        try {
+            Properties prop=new Properties();
+            prop.load(new FileInputStream("config.properties"));
+            String userFile= prop.getProperty("userFile");
+            String financeFile = prop.getProperty("financeFile");
+            UserDao userDao = new UserDaoReader(userFile);
+            FinanceDao financeDao = new FinanceDaoReader(financeFile);
+            this.daoService = new DaoService(userDao, financeDao);
+        } catch (FileNotFoundException ex) {
+            System.out.println("wowwow");
+        } catch (Exception e) {    
+            System.out.println("wow");
+        }
+    }
+    
+    @Override
     public void start(Stage finance) {
-        
+        daoService.login("Pegi");
+        String username = daoService.loggedIn().getUsername();
+        User userStatus = daoService.loggedIn();
         finance.setTitle("Finance Tracker");
         BorderPane page = new BorderPane();
         // top bar seup
         BorderPane topBar = new BorderPane();
-        page.setTop(topBar);
-        Button button = new Button("Press this");
-        Label label = new Label("Welcome to Finance Tracker");
-        topBar.setRight(button);
         topBar.setPadding(new Insets(10));
-        topBar.setLeft(label);
-        label.setFont(new Font("Arial", 17));
+        page.setTop(topBar);
+        //Logout button and display of logged user
+        HBox logoutComponents = new HBox();
+        logoutComponents.setSpacing(10.0);
+        Button logoutButton = new Button("Logout");
+        System.out.println(userStatus);
+        String logoutText;
+        if(userStatus == null) {
+            logoutText = "";
+        } else {
+            logoutText = "You're logged in as " + daoService.loggedIn().getName();
+        }
+        Label logoutLable = new Label(logoutText);
+        logoutLable.setFont(new Font("Arial", 17));
+        logoutComponents.getChildren().addAll(logoutLable,logoutButton);
+        topBar.setRight(logoutComponents);
+        Label welcomeText = new Label("Welcome to Finance Tracker");
+        topBar.setLeft(welcomeText);
+        welcomeText.setFont(new Font("Arial", 17));
         
         // display fields for creating more events
         GridPane createForm = new GridPane();
@@ -67,8 +113,26 @@ public class FinanceUi extends Application {
         
         Button createButton = new Button("Create");
         formButtons.getChildren().add(createButton);
+        EventHandler<ActionEvent> createEvent = new EventHandler<ActionEvent>() {
+        public void handle(ActionEvent e) {
+            Finance financeObject = new Finance(userStatus.getUsername(),Integer.valueOf(priceField.getText()), eventField.getText(), dateField.getText());
+            daoService.createFinance(financeObject);
+            
+            }
+        };
+        createButton.setOnAction(createEvent);
+        
         Button clearButton = new Button("Clear");
         formButtons.getChildren().add(clearButton);
+        EventHandler<ActionEvent> clearEvent = new EventHandler<ActionEvent>() {
+        public void handle(ActionEvent e) {
+            priceField.clear();
+            eventField.clear();
+            dateField.clear();
+            
+        }
+        };
+        clearButton.setOnAction(clearEvent);
         formButtons.setSpacing(55.0);
         
         topBar.setBottom(createForm);
@@ -81,6 +145,7 @@ public class FinanceUi extends Application {
 
         TableView tableView = new TableView();
         tableView.setPlaceholder(new Label("No data to display"));
+        
         TableColumn<String, Finance> price = new TableColumn<>("Price");
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         
@@ -92,16 +157,18 @@ public class FinanceUi extends Application {
         tableView.getColumns().add(price);
         tableView.getColumns().add(event);
         tableView.getColumns().add(date);
+        daoService.createUser(new User("Pegi", "pegii"));
         
-        FinanceDao financeDao = new FinanceDaoReader("finances.txt");
-        Finance test = new Finance(100, "Bought nice tea", "22.10.2019");
-        financeDao.create(test);
-        Finance test2 = new Finance(9001, "Bought energy drink", "23.10.2019");
-        financeDao.create(test2);
-        Finance test3 = new Finance(1337, "Bought water", "24.10.2019");
-        financeDao.create(test3);
-        for(Finance f: financeDao.getAll()) {
-            tableView.getItems().add(new Finance(f.getPrice(),f.getEvent(), f.getDate()));
+        Finance test = new Finance(username,100, "Bought nice tea", "22.10.2019");
+        daoService.createFinance(test);
+        Finance test2 = new Finance(username,9001, "Bought energy drink", "23.10.2019");
+        daoService.createFinance(test2);
+        Finance test3 = new Finance(username,1337, "Bought water", "24.10.2019");
+        daoService.createFinance(test3);
+
+        
+        for(Finance f: daoService.getAll()) {
+            tableView.getItems().add(new Finance(f.getUsername(),f.getPrice(),f.getEvent(), f.getDate()));
         }
         
         financeStats.setCenter(tableView);

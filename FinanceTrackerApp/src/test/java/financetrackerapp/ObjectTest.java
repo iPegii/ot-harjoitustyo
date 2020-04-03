@@ -7,10 +7,6 @@ package financetrackerapp;
 
 import financetrackerapp.domain.Finance;
 import financetrackerapp.domain.User;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,14 +14,12 @@ import static org.junit.Assert.*;
  *
  * @author iPegii
  */
-public class FinanceTrackerAppTest {
-    @Before
-    public void setUp() {
-    }
+public class ObjectTest {
 
     @Test
     public void testCreatingFinanceIsCorrect() {
-        Finance finance = new Finance(50,"Special coffee", "22.02.2019");
+        Finance finance = new Finance("Pegi" ,50,"Special coffee", "22.02.2019");
+        assertEquals(finance.getUsername(), "Pegi");
         assertTrue(finance.getPrice() == 50);
         assertEquals(finance.getEvent(), "Special coffee");
         assertEquals(finance.getDate(), "22.02.2019");
@@ -33,8 +27,8 @@ public class FinanceTrackerAppTest {
     
     @Test
     public void testFinanceToString() {
-        Finance finance = new Finance(40,"Very nice tea", "23.02.2019");
-        assertEquals(finance.toString(), "40;Very nice tea;23.02.2019");
+        Finance finance = new Finance("Kegi", 40,"Very nice tea", "23.02.2019");
+        assertEquals(finance.toString(), "Kegi;40;Very nice tea;23.02.2019");
     }
     
     @Test

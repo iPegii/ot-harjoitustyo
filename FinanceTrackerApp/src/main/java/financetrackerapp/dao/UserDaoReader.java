@@ -18,10 +18,13 @@ public class UserDaoReader implements UserDao {
     public void read() {
         try {
             File file = new File("users.txt");
+            if(!file.exists()) {
+                file.createNewFile();
+            }
             Scanner myReader = new Scanner(file);
             while(myReader.hasNextLine()) {
                 String[] parts = myReader.nextLine().split(";");
-                User u = new User(parts[1], parts[2]);
+                User u = new User(parts[0], parts[1]);
                 users.add(u);
             }
             myReader.close();
@@ -56,6 +59,9 @@ public class UserDaoReader implements UserDao {
     }
     
     public User create(User user) {
+        if(findByUsername(user.getUsername()) != null) {
+            return null;
+        }
         users.add(user);
         save();
         return user;

@@ -4,6 +4,7 @@ package financetrackerapp.dao;
 import financetrackerapp.domain.Finance;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,7 +33,7 @@ public class FinanceDaoReader implements FinanceDao {
             Scanner myReader = new Scanner(file);
             while(myReader.hasNextLine()) {
                 String[] parts = myReader.nextLine().split(";");
-                Finance f = new Finance(Integer.valueOf(parts[0]), parts[1], parts[2]);
+                Finance f = new Finance(parts[0],Integer.valueOf(parts[1]), parts[2], parts[3]);
                 finances.add(f);
             }
             myReader.close();
@@ -42,17 +43,27 @@ public class FinanceDaoReader implements FinanceDao {
         }
     }
     
-    public void save() {
+    public String save() {
+        FileWriter writer = null;
         try {
-            FileWriter writer = new FileWriter(new File(fileName));
+            writer = new FileWriter(new File(fileName));
             for(Finance f: finances) {
-                writer.write(f.getPrice()+";"+f.getEvent()+";"+f.getDate() + "\n");
+                writer.write(f.getUsername()+";"+f.getPrice()+";"+f.getEvent()+";"+f.getDate() + "\n");
             }
-            writer.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error writing to the file: " + e);
-            e.printStackTrace();
+            return "Error writing to file" + e;
+        } finally {
+            if(writer != null) {
+                try {
+                writer.close(); 
+                } catch(IOException ex) {
+                    System.out.println("Error while trying to access the file: " + ex);
+                    return "Error accessing finances file: " + ex;
+                }  
         }
+    }
+        return "New event added";
     }
     
     public List<Finance> getAll() {
@@ -67,10 +78,10 @@ public class FinanceDaoReader implements FinanceDao {
                 .collect(Collectors.toList());
     }
     
-    public Finance create(Finance finance) {
+    public String create(Finance finance) {
         finances.add(finance);
-        save();
-        return finance;
+        String response = save();
+        return response;
     }
     /*
     public void delete(String id) {
