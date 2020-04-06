@@ -15,14 +15,12 @@ import financetrackerapp.domain.Finance;
 import financetrackerapp.domain.User;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,15 +28,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
         
 public class FinanceUi extends Application {
@@ -56,9 +49,11 @@ public class FinanceUi extends Application {
             FinanceDao financeDao = new FinanceDaoReader(financeFile);
             this.daoService = new DaoService(userDao, financeDao);
         } catch (FileNotFoundException ex) {
-            System.out.println("wowwow");
+            System.out.println("Error: Files missing");
+        } catch (IOException e) {    
+            System.out.println("Error: Failed accessing file");
         } catch (Exception e) {    
-            System.out.println("wow");
+            System.out.println("Error: Something unexpected happened" + e.getMessage());
         }
     }
     
@@ -68,7 +63,10 @@ public class FinanceUi extends Application {
         String username = daoService.loggedIn().getUsername();
         User userStatus = daoService.loggedIn();
         finance.setTitle("Finance Tracker");
+        BorderPane overlay = new BorderPane();
         BorderPane page = new BorderPane();
+        LoginUi loginUi = new LoginUi(daoService, page);
+        overlay.setCenter(page);
         // top bar seup
         BorderPane topBar = new BorderPane();
         topBar.setPadding(new Insets(10));
@@ -77,6 +75,10 @@ public class FinanceUi extends Application {
         HBox logoutComponents = new HBox();
         logoutComponents.setSpacing(10.0);
         Button logoutButton = new Button("Logout");
+        logoutButton.setOnAction((event) -> {
+        overlay.setCenter(loginUi.getLoginScreen());
+        });
+        
         System.out.println(userStatus);
         String logoutText;
         if(userStatus == null) {
@@ -117,7 +119,6 @@ public class FinanceUi extends Application {
         public void handle(ActionEvent e) {
             Finance financeObject = new Finance(userStatus.getUsername(),Integer.valueOf(priceField.getText()), eventField.getText(), dateField.getText());
             daoService.createFinance(financeObject);
-            
             }
         };
         createButton.setOnAction(createEvent);
@@ -129,7 +130,6 @@ public class FinanceUi extends Application {
             priceField.clear();
             eventField.clear();
             dateField.clear();
-            
         }
         };
         clearButton.setOnAction(clearEvent);
@@ -149,13 +149,13 @@ public class FinanceUi extends Application {
         TableColumn<String, Finance> price = new TableColumn<>("Price");
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         
-        TableColumn<String, Finance> event = new TableColumn<>("Event");
-        event.setCellValueFactory(new PropertyValueFactory<>("event"));
+        TableColumn<String, Finance> financeEvent = new TableColumn<>("Event");
+        financeEvent.setCellValueFactory(new PropertyValueFactory<>("event"));
         TableColumn<String, Finance> date = new TableColumn<>("Date");
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         
         tableView.getColumns().add(price);
-        tableView.getColumns().add(event);
+        tableView.getColumns().add(financeEvent);
         tableView.getColumns().add(date);
         daoService.createUser(new User("Pegi", "pegii"));
         
@@ -175,9 +175,9 @@ public class FinanceUi extends Application {
         financeStats.setTop(balance);
         financeStats.setMargin(balance,new Insets(10));
         
- 
-        Scene layout = new Scene(page);
-        finance.setScene(layout);
+        overlay.setCenter(page);
+        Scene financeLayout = new Scene(overlay);
+        finance.setScene(financeLayout);
         finance.setWidth(1600);
         finance.setHeight(800);
         finance.show();

@@ -1,8 +1,30 @@
-<h1> Harjoitustyö </h1>
+# Finance Tracker App
 
-*Sisältää laskareita ja harjoituksia*
+Sovelluksen tarkoituksena on mahdollistaa kulujen seuranta.
 
-[komentorivi.txt](https://github.com/iPegii/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)  
-[gitlog.txt](https://github.com/iPegii/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
-<-- toinen.txt luotu myöhemmin kuin materiaalissa  
-### [vaatimusmäärittely](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/vaatimusmaarittely.md)
+
+## Dokumentaatio
+### [Vaatimusmäärittely](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/vaatimusmaarittely.md)  
+### [Tuntikirjanpito](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/tuntikirjanpito.md)
+
+## Komentorivitoiminnot
+
+### Ohjelman ajaminen
+
+Sovelluksen ajettavan jar-tiedoston luominen seuraavalla komennolla
+
+`mvn package`
+
+Sovelluksen ajaminen onnistuu komennolla
+`mvn compile exec:java -Dexec.mainClass=financetrackerapp.Main`
+
+### Testaaminen
+Ajaa testit ja ilmoittaa mahdollisista virheistä.
+
+`mvn test`
+
+Testikattavuusraportin luominen onnistuu komennolla
+
+`mvn jacoco:report`
+
+
