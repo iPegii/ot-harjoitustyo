@@ -6,16 +6,8 @@
 package financetrackerapp.domain;
 
 import financetrackerapp.dao.FinanceDao;
-import financetrackerapp.dao.FinanceDaoReader;
 import financetrackerapp.dao.UserDao;
-import financetrackerapp.dao.UserDaoReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -23,28 +15,25 @@ import java.util.stream.Collectors;
  * @author iPegii
  */
 public class DaoService {
-    
     private UserDao userDao;
     private FinanceDao financeDao;
     private User user;
-    
     public DaoService(UserDao userDao, FinanceDao financeDao) {
-            this.userDao = userDao;
-            this.financeDao = financeDao;
+        this.userDao = userDao;
+        this.financeDao = financeDao;
     }
     
     public User login(String username) {
         User userObject = userDao.findByUsername(username);
-        if(userObject == null) {
+        if (userObject == null) {
             return null;
         } else {
             this.user = userObject;
             return userObject;
         }
     }
-    
     public User loggedIn() {
-        if(user == null) {
+        if (user == null) {
             return null;
         } else {
             return user;
@@ -61,13 +50,12 @@ public class DaoService {
     }
     
     public List<Finance> getAll() {
-        if(user == null) {
+        if (user == null) {
             return null;
         } else {
-        return financeDao.getAll().stream()
+            return financeDao.getAll().stream()
                 .filter(finance -> finance.getUsername().equals(user.getUsername()))
                 .collect(Collectors.toList());
         }
     }
-
 }

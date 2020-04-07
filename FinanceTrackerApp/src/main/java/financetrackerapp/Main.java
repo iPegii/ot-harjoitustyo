@@ -1,9 +1,6 @@
 
 package financetrackerapp;
 
-import financetrackerapp.dao.FinanceDaoReader;
-import financetrackerapp.domain.Finance;
-import java.util.List;
 import javafx.application.Application;
 import financetrackerapp.ui.FinanceUi;
 

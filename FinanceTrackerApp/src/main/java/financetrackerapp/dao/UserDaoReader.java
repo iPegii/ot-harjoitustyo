@@ -2,11 +2,13 @@
 package financetrackerapp.dao;
 
 import financetrackerapp.domain.User;
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class UserDaoReader implements UserDao {
-    
     private List<User> users;
     private String file;
     public UserDaoReader(String file) {
@@ -14,31 +16,30 @@ public class UserDaoReader implements UserDao {
         this.file = file;
         read();
     }
-    
+
     public void read() {
         try {
             File file = new File("users.txt");
-            if(!file.exists()) {
+            if (!file.exists()) {
                 file.createNewFile();
             }
             Scanner myReader = new Scanner(file);
-            while(myReader.hasNextLine()) {
+            while (myReader.hasNextLine()) {
                 String[] parts = myReader.nextLine().split(";");
                 User u = new User(parts[0], parts[1]);
                 users.add(u);
             }
             myReader.close();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Error reading the file: " + e);
             e.printStackTrace();
         }
     }
-    
     public void save() {
         try {
             FileWriter writer = new FileWriter(new File(file));
-            for(User user: users) {
-                writer.write(user.getUsername()+";"+user.getName());
+            for (User user: users) {
+                writer.write(user.getUsername() + ";" + user.getName());
             }
             writer.close();
         } catch (Exception e) {
@@ -59,7 +60,7 @@ public class UserDaoReader implements UserDao {
     }
     
     public User create(User user) {
-        if(findByUsername(user.getUsername()) != null) {
+        if (findByUsername(user.getUsername()) != null) {
             return null;
         }
         users.add(user);
@@ -69,18 +70,17 @@ public class UserDaoReader implements UserDao {
     
     public void delete(String username) {
         User userToRemove = null;
-        for(User user: users) {
-            if(user.getUsername().equals(username)) {
-              userToRemove = user;
-              break;
+        for (User user: users) {
+            if (user.getUsername().equals(username)) {
+                userToRemove = user;
+                break;
             }
         }
-        if(userToRemove != null) {
+        if (userToRemove != null) {
             users.remove(userToRemove);
         } else {
             System.out.println("User not found: " + username);
         }
         save();
     }
-    
 }

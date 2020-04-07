@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <suppress files="financetrackerapp.ui.FinanceTableUi.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="financetrackerapp.ui.FinanceUi.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="financetrackerapp.ui.LoginUi.java" checks="[a-zA-Z0-9]*"/>
+</suppressions>

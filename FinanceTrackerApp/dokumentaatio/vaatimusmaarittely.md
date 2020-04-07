@@ -19,12 +19,13 @@ Sovelluksen on tarkoitus mahdollistaa kulujen seuranta, omaa kulutusta pystyy se
 ### Ennen kirjautumista
 
  * Käyttäjä voi luoda uuden tunnuksen
-    * Käyttäjätunnus on uniikki
-    * Käyttäjä voi valita itselleen nimimerkin
+    * Käyttäjätunnus on uniikki (tehty)
+    * Käyttäjä voi valita itselleen nimimerkin (tehty)
+    * Käyttäjä voi muokata nimimerkkiä
 
 ### Kirjautumisen jälkeen
 
-* Käyttäjä näkee yleisen saldon
+* Käyttäjä näkee yleisen saldon 
 * Käyttäjä voi luoda tapahtumia seurantaan
 
  ## Kehitysideoita
