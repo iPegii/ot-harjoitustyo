@@ -10,10 +10,10 @@ import java.util.Scanner;
 
 public class UserDaoReader implements UserDao {
     private List<User> users;
-    private String file;
-    public UserDaoReader(String file) {
+    private String fileName;
+    public UserDaoReader(String fileName) {
         this.users = new ArrayList<>();
-        this.file = file;
+        this.fileName = fileName;
         read();
     }
 
@@ -37,7 +37,7 @@ public class UserDaoReader implements UserDao {
     }
     public void save() {
         try {
-            FileWriter writer = new FileWriter(new File(file));
+            FileWriter writer = new FileWriter(new File(fileName));
             for (User user: users) {
                 writer.write(user.getUsername() + ";" + user.getName() + "\n");
             }
