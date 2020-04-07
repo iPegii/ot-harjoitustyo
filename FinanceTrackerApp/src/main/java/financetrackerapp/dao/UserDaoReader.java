@@ -39,7 +39,7 @@ public class UserDaoReader implements UserDao {
         try {
             FileWriter writer = new FileWriter(new File(file));
             for (User user: users) {
-                writer.write(user.getUsername() + ";" + user.getName());
+                writer.write(user.getUsername() + ";" + user.getName() + "\n");
             }
             writer.close();
         } catch (Exception e) {

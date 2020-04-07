@@ -1,1 +1,3 @@
-Pegi;pegii;
+Pegi;pegii
+AmazingGuy;Guy
+Wuuzaa;Wu

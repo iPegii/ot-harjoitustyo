@@ -8,6 +8,7 @@ package financetrackerapp.ui;
 import financetrackerapp.domain.DaoService;
 import financetrackerapp.domain.Finance;
 import financetrackerapp.domain.User;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,6 +33,7 @@ public class FinanceTableUi {
     
     private User userStatus;
     private DaoService daoService;
+    private List<Finance> financesList;
     
     public FinanceTableUi(DaoService daoService) {
         this.daoService = daoService;
@@ -39,6 +41,7 @@ public class FinanceTableUi {
     
     public Parent getFinanceTable(Stage mainStage) {
         this.userStatus = daoService.loggedIn();
+        financesList = daoService.getAll();
         BorderPane page = new BorderPane();
         BorderPane overlay = new BorderPane();
         overlay.setCenter(page);
@@ -88,10 +91,21 @@ public class FinanceTableUi {
         
         Button createButton = new Button("Create");
         formButtons.getChildren().add(createButton);
+        
+        TableView tableView = new TableView();
+        
         EventHandler<ActionEvent> createEvent = new EventHandler<ActionEvent>() {
         public void handle(ActionEvent e) {
             Finance financeObject = new Finance(userStatus.getUsername(),Integer.valueOf(priceField.getText()), eventField.getText(), dateField.getText());
             daoService.createFinance(financeObject);
+            financesList = daoService.getAll();
+            tableView.getItems().clear();
+            financesList.forEach((f) -> {
+            tableView.getItems().add(new Finance(f.getUsername(),f.getPrice(),f.getEvent(), f.getDate()));
+            });
+            priceField.clear();
+            eventField.clear();
+            dateField.clear();
             }
         };
         createButton.setOnAction(createEvent);
@@ -116,7 +130,6 @@ public class FinanceTableUi {
         Label balance = new Label("Balance: 1500");
         balance.setFont( new Font("Arial", 20));
 
-        TableView tableView = new TableView();
         tableView.setPlaceholder(new Label("No data to display"));
         
         TableColumn<String, Finance> price = new TableColumn<>("Price");
@@ -130,20 +143,13 @@ public class FinanceTableUi {
         tableView.getColumns().add(price);
         tableView.getColumns().add(financeEvent);
         tableView.getColumns().add(date);
-        daoService.createUser(new User("Pegi", "pegii"));
         if(userStatus != null) {
             String username = userStatus.getUsername();
         }
-        
-        Finance test = new Finance("Pegii",100, "Bought nice tea", "22.10.2019");
-        daoService.createFinance(test);
-        if(daoService.getAll() == null) {
-        
-        } else {
-        daoService.getAll().forEach((f) -> {
+
+        financesList.forEach((f) -> {
             tableView.getItems().add(new Finance(f.getUsername(),f.getPrice(),f.getEvent(), f.getDate()));
         });
-        }
         
         financeStats.setCenter(tableView);
         financeStats.setTop(balance);
@@ -151,5 +157,7 @@ public class FinanceTableUi {
         
         return overlay;
     }
+    
+    
     
 }
