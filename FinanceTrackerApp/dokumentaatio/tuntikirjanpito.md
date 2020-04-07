@@ -8,6 +8,7 @@ Päivä   |Aika| Mitä tein
 31.3    | 2.5| JavaFX säätöä ja ensimmäisiä testejä
 3.4     | 2.5| Virheenkäsittelyä ja kirjautumisen edistämistä
 6.4     | 3.5| Käyttäjän luomisen -käyttöliittymä luotu
+7.4     | 1.5| Koodin refaktorointia ja kirjautumisen toiminnallisuus lisätty
 Yhteensä| 8  | 
 
 

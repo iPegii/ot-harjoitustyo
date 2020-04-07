@@ -260,3 +260,13 @@ Pegi;1337;Bought water;24.10.2019
 Pegi;100;Bought nice tea;22.10.2019
 Pegi;9001;Bought energy drink;23.10.2019
 Pegi;1337;Bought water;24.10.2019
+Pegi;100;Bought nice tea;22.10.2019
+Pegi;9001;Bought energy drink;23.10.2019
+Pegi;1337;Bought water;24.10.2019
+Pegii;100;Bought nice tea;22.10.2019
+Pegii;100;Bought nice tea;22.10.2019
+Pegii;100;Bought nice tea;22.10.2019
+Pegii;100;Bought nice tea;22.10.2019
+Pegii;100;Bought nice tea;22.10.2019
+Pegii;100;Bought nice tea;22.10.2019
+Pegii;100;Bought nice tea;22.10.2019

@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -24,15 +25,16 @@ public class LoginUi {
     
     private DaoService daoService;
     private boolean createUserIsTrue;
+    private Stage mainStage;
     
-    public LoginUi(DaoService daoService, Parent page) {
+    public LoginUi(DaoService daoService) {
         this.daoService = daoService;
-        createUserIsTrue = false;
+        this.createUserIsTrue = false;
+        this.mainStage = mainStage;
     }
     
-    public Parent getLoginScreen() {
+    public Parent getLoginScreen(Stage mainStage) {
       BorderPane baseOverlay = new BorderPane();
-        
         
         
       GridPane loginOverlay = new GridPane();
@@ -58,7 +60,10 @@ public class LoginUi {
       
 
       loginButton.setOnAction((event) -> {
-      daoService.login(loginUsernameField.getText());
+      User user = daoService.login(loginUsernameField.getText());
+      if(user != null) {
+      FinanceUi.setFinanceScene();
+      }
       });
       
       
