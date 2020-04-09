@@ -7,6 +7,8 @@ Sovelluksen tarkoituksena on mahdollistaa kulujen seuranta.
 ### [Vaatimusmäärittely](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/vaatimusmaarittely.md)  
 ### [Tuntikirjanpito](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/tuntikirjanpito.md)
 
+### [Arkkitehtuuri](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/arkkitehtuuri.md)
+
 ## Komentorivitoiminnot
 
 ### Ohjelman ajaminen
@@ -26,5 +28,9 @@ Ajaa testit ja ilmoittaa mahdollisista virheistä.
 Testikattavuusraportin luominen onnistuu komennolla
 
 `mvn jacoco:report`
+
+Checkstyle raporting luonti
+
+`mvn jxr:jxr checkstyle:checkstyle`
 
 
