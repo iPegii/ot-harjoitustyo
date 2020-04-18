@@ -7,6 +7,7 @@ package financetrackerapp.domain;
 
 import financetrackerapp.dao.FinanceDao;
 import financetrackerapp.dao.UserDao;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 

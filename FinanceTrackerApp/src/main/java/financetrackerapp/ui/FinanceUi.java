@@ -11,6 +11,7 @@ import financetrackerapp.dao.FinanceDaoReader;
 import financetrackerapp.dao.UserDao;
 import financetrackerapp.dao.UserDaoReader;
 import financetrackerapp.domain.DaoService;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,12 +31,16 @@ public class FinanceUi extends Application {
     public void init() {
         
         try {
+            File folder = new File("resources");
+            if(!folder.exists()) {
+            folder.mkdir();
+            }
             Properties prop=new Properties();
             prop.load(new FileInputStream("config.properties"));
             String userFile= prop.getProperty("userFile");
             String financeFile = prop.getProperty("financeFile");
-            UserDao userDao = new UserDaoReader(userFile);
-            FinanceDao financeDao = new FinanceDaoReader(financeFile);
+            UserDao userDao = new UserDaoReader("resources/" + userFile);
+            FinanceDao financeDao = new FinanceDaoReader("resources/" + financeFile);
             this.daoService = new DaoService(userDao, financeDao);
         } catch (FileNotFoundException ex) {
             System.out.println("Error: Files missing");

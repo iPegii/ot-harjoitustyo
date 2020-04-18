@@ -19,7 +19,7 @@ public class UserDaoReader implements UserDao {
 
     public void read() {
         try {
-            File file = new File("users.txt");
+            File file = new File(fileName);
             if (!file.exists()) {
                 file.createNewFile();
             }
