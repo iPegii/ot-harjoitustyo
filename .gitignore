@@ -6,6 +6,7 @@
 /FinanceTrackerApp/target/
 /FinanceTrackerApp/users.txt/
 /FinanceTrackerApp/finances.txt/
+/FinanceTrackerApp/testFinance.txt/
 /FinanceTrackerApp/nbproject/
-/FinanceTrackerApp/keys.properties/
+/FinanceTrackerApp/keys.PROPERTIES/
 /FinanceTrackerApp/resources/
