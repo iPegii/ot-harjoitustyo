@@ -28,8 +28,8 @@ public class FinanceDaoTest {
     
     private FinanceDaoReader financeReader;
     private UserDaoReader userReader;
-    private String financeFileName;
-    private String userFileName;
+    private String[] financeFileSettings;
+    private String[] userFileSettings;
     
     public FinanceDaoTest() {
     }
@@ -40,14 +40,14 @@ public class FinanceDaoTest {
             if(!folder.exists() && !folder.isDirectory()) {
             folder.mkdir();
         }
-        this.financeFileName = "testResources/testFinances.json";
-        this.userFileName = "testResources/testUsers.json";
-        File financeFile = new File(financeFileName);
-        File userFile = new File(userFileName);
+        this.financeFileSettings = new String[]{"testResources/", "testFinances.json"};
+        this.userFileSettings = new String[]{ "testResources/", "testUsers.json"};
+        File financeFile = new File(financeFileSettings[0]+financeFileSettings[1]);
+        File userFile = new File(userFileSettings[0]+userFileSettings[1]);
         financeFile.delete();
         userFile.delete();
-        this.financeReader = new FinanceDaoReader(financeFileName);
-        this.userReader = new UserDaoReader(userFileName);
+        this.financeReader = new FinanceDaoReader(financeFileSettings);
+        this.userReader = new UserDaoReader(userFileSettings);
     }
     
     @Test
