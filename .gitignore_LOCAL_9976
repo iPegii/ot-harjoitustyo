@@ -4,9 +4,9 @@
 /laskarit/viikko2/Maksukortti2/Maksukortti/nbproject/
 /laskarit/viikko2/Maksukortti2/Maksukortti/target/
 /FinanceTrackerApp/target/
-/FinanceTrackerApp/users.txt/
-/FinanceTrackerApp/finances.txt/
-/FinanceTrackerApp/testFinance.txt/
+/FinanceTrackerApp/users.txt
+/FinanceTrackerApp/finances.txt
+/FinanceTrackerApp/testFinance.txt
 /FinanceTrackerApp/nbproject/
 /FinanceTrackerApp/resources/
 /FinanceTrackerApp/keys.properties
