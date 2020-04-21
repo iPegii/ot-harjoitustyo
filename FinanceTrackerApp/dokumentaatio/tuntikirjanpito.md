@@ -15,8 +15,9 @@ Päivä   |Aika| Mitä tein
 19.4    | 5  | MongoDb ja Gson lisääminen
 20.4    | 2.5| MongoDb optimointia ja id-kenttien lisääminen
 || 1 | Koodin refaktorointia
+21.4.2020 | 3 | Testien muokkausta ja yleistä refaktorointia
 
-Yhteensä| 20 | 
+Yhteensä| 26 | 
 
 
 

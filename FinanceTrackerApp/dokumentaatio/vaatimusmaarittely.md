@@ -21,12 +21,12 @@ Sovelluksen on tarkoitus mahdollistaa kulujen seuranta, omaa kulutusta pystyy se
  * Käyttäjä voi luoda uuden tunnuksen
     * Käyttäjätunnus on uniikki (tehty)
     * Käyttäjä voi valita itselleen nimimerkin (tehty)
-    * Käyttäjä voi muokata nimimerkkiä
 
 ### Kirjautumisen jälkeen
 
 * Käyttäjä näkee yleisen saldon 
-* Käyttäjä voi luoda tapahtumia seurantaan
+* Käyttäjä voi luoda tapahtumia seurantaan (tehty)
+* Käyttäjä voi muokata nimimerkkiä
 
  ## Kehitysideoita
 
@@ -34,3 +34,7 @@ Sovelluksen on tarkoitus mahdollistaa kulujen seuranta, omaa kulutusta pystyy se
 * Tapahtumien poistaminen
 * Graafinen näkymä saldon kehityksestä
 * Tietyn tapahtuman etsiminen
+* Käyttäjät ja tapahtumat tallennetaan pilveen (tehty)
+* Käyttäjän olisi mahdollista tehdä tapahtumia ilman internettiä
+* Käyttäjä voi valita päivämäärän kalenterista
+* Käyttäjä voi luoda salasanan
