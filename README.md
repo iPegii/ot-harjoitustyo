@@ -10,6 +10,11 @@ Sovelluksen tarkoituksena on mahdollistaa kulujen seuranta.
 ### [Arkkitehtuuri](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/arkkitehtuuri.md)
 
 
+## Released
+
+### [Viikko 5 ](https://github.com/iPegii/ot-harjoitustyo/releases/tag/viikko5)
+
+
 ## Ennen ohjelman ajamista
 
 Lisää ohjelman juurikansioon (kansioon, jossa sijaitsee esimerkiksi tiedosto "config.properties" ja kansio "dokumentaatio"), tiedosto nimeltä "keys.properties" tämän tiedoston sisälle kirjoitetaan vain ensimmäiselle riville seuraava: `mongodb.uri=mongodb+srv://<Username>:<Password>@<ClusterName>/test?retryWrites=true&w=majority`
