@@ -1,7 +1,6 @@
 
 package financetrackerapp.domain;
 
-import org.bson.types.ObjectId;
 
 public class User {
     
