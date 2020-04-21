@@ -1,50 +1,72 @@
 
 package financetrackerapp.dao;
 
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import financetrackerapp.domain.User;
+import financetrackerapp.mongodb.UserService;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class UserDaoReader implements UserDao {
     private List<User> users;
-    private String fileName;
-    public UserDaoReader(String fileName) {
+    private String[] userSettings;
+    
+    public UserDaoReader(String[] fileSettings) {
         this.users = new ArrayList<>();
-        this.fileName = fileName;
-        read();
+        this.userSettings = fileSettings;
+        try {
+            read();
+        } catch (IOException ex) {
+            System.out.println("Error while initializing users file");
+        }
+    }
+    
+    public void init() {
+        UserService service = new UserService("ohte");
+        List<User> userList = service.getAll();
+        users.addAll(userList);
+        save();
     }
 
-    public void read() {
-        try {
-            File file = new File(fileName);
+    public void read() throws IOException {
+            File file = new File(userSettings[0]+userSettings[1]);
             if (!file.exists()) {
                 file.createNewFile();
+                init();
             }
-            Scanner myReader = new Scanner(file);
-            while (myReader.hasNextLine()) {
-                String[] parts = myReader.nextLine().split(";");
-                User u = new User(parts[0], parts[1]);
-                users.add(u);
+            try (FileReader reader = new FileReader(userSettings[0]+userSettings[1])) {
+            Gson gson = new Gson();
+            //CHECKSTYLE.OFF: WhitespaceAround - Curly braces need whitespaces, ignoring makes this more readable
+            Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
+            //CHECKSTYLE.ON: WhitespaceAround
+            List<User> userList = gson.fromJson(reader, userListType);
+            users.clear();
+            if (userList != null) {
+                users.addAll(userList);
             }
-            myReader.close();
-        } catch (Exception e) {
-            System.out.println("Error reading the file: " + e);
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Error reading the users file: " + e);
         }
     }
     public void save() {
+        FileWriter writer = null;
         try {
-            FileWriter writer = new FileWriter(new File(fileName));
-            for (User user: users) {
-                writer.write(user.getUsername() + ";" + user.getName() + "\n");
-            }
+            writer = new FileWriter(new File(userSettings[0]+userSettings[1]));
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonElement jsonTree = gson.toJsonTree(users);
+            gson.toJson(jsonTree, writer);
+            
             writer.close();
-        } catch (Exception e) {
-            System.out.println("Error writing to the file: " + e);
-            e.printStackTrace();
+        } catch (JsonIOException e) {
+            System.out.println("Gson unable to write users file: " + e);
+        } catch (IOException e) {
+            System.out.println("Error writing to the users file: " + e);
         }
     }
     
@@ -54,9 +76,9 @@ public class UserDaoReader implements UserDao {
     
     public User findByUsername(String username) {
         return users.stream()
-                .filter(user -> user.getUsername().equals(username))
-                .findFirst()
-                .orElse(null);
+            .filter(user -> user.getUsername().equals(username))
+            .findFirst()
+            .orElse(null);
     }
     
     public User create(User user) {
@@ -82,5 +104,9 @@ public class UserDaoReader implements UserDao {
             System.out.println("User not found: " + username);
         }
         save();
+    }
+    
+    public String[] getFileName() {
+        return userSettings;
     }
 }

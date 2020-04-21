@@ -24,6 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -86,8 +87,10 @@ public class FinanceTableUi {
         
         Label dateText = new Label("Date: ");
         TextField dateField = new TextField();
+       // DatePicker datePicker = new DatePicker
         createForm.add(dateText, 0, 2);
         createForm.add(dateField, 1, 2);
+      //  dateField.
         
         Button createButton = new Button("Create");
         formButtons.getChildren().add(createButton);
@@ -96,12 +99,15 @@ public class FinanceTableUi {
         
         EventHandler<ActionEvent> createEvent = new EventHandler<ActionEvent>() {
         public void handle(ActionEvent e) {
-            Finance financeObject = new Finance(userStatus.getUsername(),Integer.valueOf(priceField.getText()), eventField.getText(), dateField.getText());
-            daoService.createFinance(financeObject);
+            String userId = userStatus.getId();
+            int price = Integer.valueOf(priceField.getText());
+            String event = eventField.getText();
+            String date = dateField.getText();
+            daoService.createFinance(price, event, date, userId);
             financesList = daoService.getAll();
             tableView.getItems().clear();
             financesList.forEach((f) -> {
-            tableView.getItems().add(new Finance(f.getUsername(),f.getPrice(),f.getEvent(), f.getDate()));
+            tableView.getItems().add(new Finance(f.getId(),f.getPrice(),f.getEvent(), f.getDate(), f.getUserId()));
             });
             priceField.clear();
             eventField.clear();
@@ -143,12 +149,13 @@ public class FinanceTableUi {
         tableView.getColumns().add(price);
         tableView.getColumns().add(financeEvent);
         tableView.getColumns().add(date);
+        /*
         if(userStatus != null) {
             String username = userStatus.getUsername();
         }
-
+        */
         financesList.forEach((f) -> {
-            tableView.getItems().add(new Finance(f.getUsername(),f.getPrice(),f.getEvent(), f.getDate()));
+            tableView.getItems().add(new Finance(f.getId(),f.getPrice(),f.getEvent(), f.getDate(), f.getUserId()));
         });
         
         financeStats.setCenter(tableView);

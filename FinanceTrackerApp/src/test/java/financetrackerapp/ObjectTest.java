@@ -7,6 +7,7 @@ package financetrackerapp;
 
 import financetrackerapp.domain.Finance;
 import financetrackerapp.domain.User;
+import org.bson.types.ObjectId;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,15 +15,19 @@ import static org.junit.Assert.*;
  *
  * @author iPegii
  */
+/*
 public class ObjectTest {
 
     @Test
     public void testCreatingFinanceIsCorrect() {
-        Finance finance = new Finance("Pegi" ,50,"Special coffee", "22.02.2019");
-        assertEquals(finance.getUsername(), "Pegi");
+        ObjectId id = new ObjectId();
+        ObjectId userId = new ObjectId();
+        Finance finance = new Finance(id,50,"Special coffee", "22.02.2019", userId);
+        assertTrue(finance.getId() == id);
         assertTrue(finance.getPrice() == 50);
         assertEquals(finance.getEvent(), "Special coffee");
         assertEquals(finance.getDate(), "22.02.2019");
+        assertTrue(finance.getUserId() == userId);
     }
     
     @Test
@@ -48,3 +53,4 @@ public class ObjectTest {
     
     
 }
+*/

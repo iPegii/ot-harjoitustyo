@@ -9,60 +9,76 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import org.bson.Document;
+import com.mongodb.client.*;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import financetrackerapp.mongodb.FinanceService;
+import java.io.FileReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.bson.types.ObjectId;
+
 
 
 public class FinanceDaoReader implements FinanceDao {
     private List<Finance> finances;
-    private String fileName;
-    public FinanceDaoReader(String fileName) {
+    private String[] financeSettings;
+    public FinanceDaoReader(String[] fileSettings) {
         this.finances = new ArrayList<>();
-        this.fileName = fileName;
-        read();
-    }
-    public void read() {
+        this.financeSettings = fileSettings;
         try {
-            File file = new File(fileName);
-            // make sure file exists
-            if (!file.exists()) {
-                file.createNewFile();
+            read();
+        } catch (IOException ex) {
+            System.out.println("IO-error while reading finances file" + ex.getMessage());
+        }
+    }
+    
+    public void init() {
+        FinanceService service = new FinanceService("ohte");
+        List<Finance> financesList = service.getAll();
+        finances.addAll(financesList);
+        save();
+    }
+    public void read() throws IOException {
+        // make sure file exists
+        File file = new File(financeSettings[0]+financeSettings[1]);
+        if (!file.exists()) {
+            file.createNewFile();
+            init();
+        } else {
+            try (Reader reader = new FileReader(financeSettings[0]+financeSettings[1])) {
+                Gson gson = new Gson();
+                //CHECKSTYLE.OFF: WhitespaceAround - Curly braces need whitespace, ignoring makes this more readable
+                Type financeListType = new TypeToken<ArrayList<Finance>>(){}.getType();
+                //CHECKSTYLE.ON: WhitespaceAround
+                List<Finance> financeList = gson.fromJson(reader, financeListType);
+                finances.clear();
+                if (financeList != null) {
+                    finances.addAll(financeList);
+                }
+            } catch (Exception e) {
+                System.out.println("Error while reading finances file: " + e);
             }
-            Scanner myReader = new Scanner(file);
-            while (myReader.hasNextLine()) {
-                String[] parts = myReader.nextLine().split(";");
-                Finance f = new Finance(parts[0], Integer.valueOf(parts[1]), parts[2], parts[3]);
-                finances.add(f);
-            }
-            myReader.close();
-        } catch (Exception e) {
-            System.out.println("Error reading the file: " + e);
-            e.printStackTrace();
         }
     }
     public String save() {
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter(new File(fileName));
-            for (Finance f: finances) {
-                writer.write(f.getUsername() + ";" + f.getPrice() + ";" + f.getEvent() + ";" + f.getDate() + "\n");
-            }
-        } catch (IOException e) {
-            System.out.println("Error writing to the file: " + e);
-            return "Error writing to file" + e;
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException ex) {
-                    System.out.println("Error while trying to access the file: " + ex);
-                    return "Error accessing finances file: " + ex;
-                }
-            }
-        }
+        try (FileWriter writer = new FileWriter(new File(financeSettings[0]+financeSettings[1]))) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonElement jsonTree = gson.toJsonTree(finances);
+            gson.toJson(jsonTree, writer);
+        } catch (Exception e) {
+            System.out.println("Error writing to finances file: " + e);
+            return "Error writing to finances file: " + e;
+        } 
         return "New event added";
     }
     public List<Finance> getAll() {
         return finances;
     }
+    /*
     public List<Finance> findByDate(String date) {
         String dateFormatted = date.trim();
         return finances.stream()
@@ -70,10 +86,15 @@ public class FinanceDaoReader implements FinanceDao {
                 .filter(finance -> finance.getDate().equals(dateFormatted))
                 .collect(Collectors.toList());
     }
+    */
     public String create(Finance finance) {
         finances.add(finance);
         String response = save();
         return response;
+    }
+    
+    public String[] getFileName() {
+        return financeSettings;
     }
     /*
     public void delete(String id) {

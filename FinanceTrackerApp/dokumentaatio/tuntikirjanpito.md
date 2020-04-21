@@ -12,6 +12,9 @@ Päivä   |Aika| Mitä tein
 ||        1.5| Testien lisäämistä ja koodin muuttaminen checkstylen mukaiseksi
 9.4     | 1  | SQLite testaamista ja lisäämisen mahdollisuuksia
 10.4    | 2  | JSON (Gson) ja MongoDb opettelua 
+19.4    | 5  | MongoDb ja Gson lisääminen
+20.4    | 2.5| MongoDb optimointia ja id-kenttien lisääminen
+|| 1 | Koodin refaktorointia
 
 Yhteensä| 20 | 
 

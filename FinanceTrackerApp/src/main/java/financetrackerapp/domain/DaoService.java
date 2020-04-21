@@ -7,9 +7,12 @@ package financetrackerapp.domain;
 
 import financetrackerapp.dao.FinanceDao;
 import financetrackerapp.dao.UserDao;
+import financetrackerapp.mongodb.FinanceService;
+import financetrackerapp.mongodb.UserService;
 import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -41,13 +44,22 @@ public class DaoService {
         }
     }
     
-    public void createUser(User user) {
-        userDao.create(user);
+    public void createUser(String username, String name) {
+        // index[0] = "resources/" && index[1] == "users"
+        String fileName = userDao.getFileName()[0] + userDao.getFileName()[1];
+        UserService userService = new UserService(fileName);
+        User newUser = userService.create(username, name);
+        userDao.create(newUser);
     }
     
-    public String createFinance(Finance finance) {
-        String response = financeDao.create(finance);
-        return response;
+    public String createFinance(int price, String event, String date, String userId) {
+        FinanceService financeService = new FinanceService("finances");
+        Finance newFinance = financeService.create(price, event, date, userId);
+        if (newFinance != null) {
+            String response = financeDao.create(newFinance);
+            return response;
+        }
+        return "Couldn't add this";   
     }
     
     public List<Finance> getAll() {
@@ -55,7 +67,7 @@ public class DaoService {
             return null;
         } else {
             return financeDao.getAll().stream()
-                .filter(finance -> finance.getUsername().equals(user.getUsername()))
+                .filter(finance -> finance.getUserId() == user.getId())
                 .collect(Collectors.toList());
         }
     }

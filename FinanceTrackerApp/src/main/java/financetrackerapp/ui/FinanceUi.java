@@ -32,22 +32,26 @@ public class FinanceUi extends Application {
         
         try {
             File folder = new File("resources");
-            if(!folder.exists()) {
+            if(!folder.exists() && !folder.isDirectory()) {
             folder.mkdir();
             }
             Properties prop=new Properties();
             prop.load(new FileInputStream("config.properties"));
             String userFile= prop.getProperty("userFile");
             String financeFile = prop.getProperty("financeFile");
-            UserDao userDao = new UserDaoReader("resources/" + userFile);
-            FinanceDao financeDao = new FinanceDaoReader("resources/" + financeFile);
+            String[] usersSettings = new String[] {"resources/", userFile};
+            String[] financesSettings = new String[] {"resources/", financeFile};
+            UserDao userDao = new UserDaoReader(usersSettings);
+            FinanceDao financeDao = new FinanceDaoReader(financesSettings);
+            
             this.daoService = new DaoService(userDao, financeDao);
         } catch (FileNotFoundException ex) {
-            System.out.println("Error: Files missing");
+            System.out.println("Error: Files missing: " + ex.getMessage());
         } catch (IOException e) {    
-            System.out.println("Error: Failed accessing file");
+            System.out.println("Error: Failed accessing file: " + e.getMessage());
         } catch (Exception e) {    
-            System.out.println("Error: Something unexpected happened" + e.getMessage());
+            System.out.println("Error: Something unexpected happened: " + e.getMessage());
+            e.printStackTrace();
         }
         loginUi = new LoginUi(daoService);
         financeTableUi = new FinanceTableUi(daoService);
@@ -57,15 +61,11 @@ public class FinanceUi extends Application {
     @Override
     public void start(Stage finance) {
         this.mainStage = finance;
-      //  daoService.login("Pegi");
-    //    String username = daoService.loggedIn().getUsername();
-    //    User userStatus = daoService.loggedIn();
-    
         Scene loginScene = new Scene(loginUi.getLoginScreen(mainStage));
         finance.setTitle("Finance Tracker");
         finance.setScene(loginScene);
         finance.setWidth(300);
-        finance.setHeight(200);
+        finance.setHeight(180);
         finance.show();
     }
     
@@ -73,6 +73,8 @@ public class FinanceUi extends Application {
         Scene loginScene = new Scene(loginUi.getLoginScreen(mainStage));
         FinanceUi.mainStage.setWidth(300);
         FinanceUi.mainStage.setHeight(200);
+        FinanceUi.mainStage.setX(800);
+        FinanceUi.mainStage.setY(350);
         FinanceUi.mainStage.setScene(loginScene);
     }
     

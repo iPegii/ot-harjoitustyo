@@ -1,18 +1,22 @@
 
 package financetrackerapp.domain;
 
+import org.bson.types.ObjectId;
+
 public class Finance {
     
     private String date;
     private String event;
     private int price;
-    private String username;
+    private String id;
+    private String userId;
     
-    public Finance(String username, int price, String event, String date) {
+    public Finance(String id, int price, String event, String date, String userId) {
         this.date = date;
         this.event = event;
         this.price = price;
-        this.username = username;
+        this.id = id;
+        this.userId = userId;
     }
     
     
@@ -28,12 +32,18 @@ public class Finance {
         return price;
     }
     
-    public String getUsername() {
-        return username;
+    public String getId() {
+        return id;
     }
-    
+    public String getUserId() {
+        return userId;
+    }
+
+    @Override
     public String toString() {
-        return username + ";" + price + ";" + event + ";" + date;
+        return "Finance{" + "date=" + date + ", event=" + event + ", price=" + price + ", id=" + id + ", userId=" + userId + '}';
     }
+
+    
     
 }

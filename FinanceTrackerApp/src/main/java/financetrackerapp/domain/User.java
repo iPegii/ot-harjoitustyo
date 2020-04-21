@@ -1,15 +1,18 @@
 
 package financetrackerapp.domain;
 
+import org.bson.types.ObjectId;
+
 public class User {
     
     private String name;
     private String username;
+    private String id;
     
-    public User(String username, String name) {
+    public User(String username, String name, String id) {
         this.name = name;
         this.username = username;
-    //    this.id = id;
+        this.id = id;
     }
     
     public String getName() {
@@ -18,6 +21,10 @@ public class User {
     
     public String getUsername() {
         return this.username;
+    }
+    
+    public String getId() {
+        return this.id;
     }
     
     public String toString() {
