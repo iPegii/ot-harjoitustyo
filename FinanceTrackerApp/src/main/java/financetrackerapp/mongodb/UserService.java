@@ -16,6 +16,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -28,7 +30,6 @@ public class UserService {
     private String apiKey;
     private String selectedDatabase;
     private MongoClient client;
-    private MongoCollection<Document> users;
     
     public UserService(String selectedDatabase) {
         Properties prop = new Properties();
@@ -55,12 +56,14 @@ public class UserService {
     
     public User create(String username, String name) {
         connect();
-        String id =  new ObjectId().toString();
+        MongoDatabase database = client.getDatabase(selectedDatabase);
+        MongoCollection<Document> users = database.getCollection("users");
         
+        String id =  new ObjectId().toString();
         Document userDocument = new Document("_id", id);
         userDocument.append("username", username)
             .append("name", name);
-        
+        System.out.println(users);
         users.insertOne(userDocument);
         disconnect();
         
@@ -71,6 +74,8 @@ public class UserService {
     public List<User> getAll() {
         List<User> userList = new ArrayList<>();
         connect();
+        MongoDatabase database = client.getDatabase(selectedDatabase);
+        MongoCollection<Document> users = database.getCollection("users");
         try (MongoCursor<Document> cursor = users.find().iterator()) {
             Gson gson = new Gson();
             while (cursor.hasNext()) {
@@ -81,15 +86,15 @@ public class UserService {
         } catch (Exception e) {
             System.out.println("Error while retrieving documents from MongoDb");
         }
+        disconnect();
         return userList;
     }
     
     public void connect() {
         MongoClient mongoClient = null;
         try {
+            java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE); 
             mongoClient = MongoClients.create(apiKey);
-            MongoDatabase database = mongoClient.getDatabase(selectedDatabase);
-            users = database.getCollection("users");
         } catch (Exception e) {
             System.out.println("Error while connecting to MongoDb");
         }

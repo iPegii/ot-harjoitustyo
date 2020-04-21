@@ -3,6 +3,7 @@ package financetrackerapp;
 
 import javafx.application.Application;
 import financetrackerapp.ui.FinanceUi;
+import java.util.logging.Logger;
 
 
 public class Main {

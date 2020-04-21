@@ -43,7 +43,5 @@ public class Finance {
     public String toString() {
         return "Finance{" + "date=" + date + ", event=" + event + ", price=" + price + ", id=" + id + ", userId=" + userId + '}';
     }
-
-    
     
 }

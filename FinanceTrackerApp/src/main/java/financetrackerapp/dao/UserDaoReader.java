@@ -16,10 +16,12 @@ import java.util.List;
 public class UserDaoReader implements UserDao {
     private List<User> users;
     private String[] userSettings;
+    private UserService userService;
     
-    public UserDaoReader(String[] fileSettings) {
+    public UserDaoReader(String[] fileSettings, UserService userService) {
         this.users = new ArrayList<>();
         this.userSettings = fileSettings;
+        this.userService = userService;
         try {
             read();
         } catch (IOException ex) {
@@ -28,36 +30,37 @@ public class UserDaoReader implements UserDao {
     }
     
     public void init() {
-        UserService service = new UserService("ohte");
-        List<User> userList = service.getAll();
+        List<User> userList = userService.getAll();
         users.addAll(userList);
         save();
     }
 
     public void read() throws IOException {
-            File file = new File(userSettings[0]+userSettings[1]);
-            if (!file.exists()) {
-                file.createNewFile();
+        File file = new File(userSettings[0] + userSettings[1]);
+        if (!file.exists()) {
+            file.createNewFile();
+            init();
+        } else {
+            try (FileReader reader = new FileReader(userSettings[0] + userSettings[1])) {
+                Gson gson = new Gson();
+                //CHECKSTYLE.OFF: WhitespaceAround - Curly braces need whitespaces, ignoring makes this more readable
+                Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
+                //CHECKSTYLE.ON: WhitespaceAround
+                List<User> userList = gson.fromJson(reader, userListType);
+                users.clear();
+                if (userList != null) {
+                    users.addAll(userList);
+                }
                 init();
+            } catch (IOException e) {
+                System.out.println("Error reading the users file: " + e);
             }
-            try (FileReader reader = new FileReader(userSettings[0]+userSettings[1])) {
-            Gson gson = new Gson();
-            //CHECKSTYLE.OFF: WhitespaceAround - Curly braces need whitespaces, ignoring makes this more readable
-            Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
-            //CHECKSTYLE.ON: WhitespaceAround
-            List<User> userList = gson.fromJson(reader, userListType);
-            users.clear();
-            if (userList != null) {
-                users.addAll(userList);
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading the users file: " + e);
         }
     }
     public void save() {
         FileWriter writer = null;
         try {
-            writer = new FileWriter(new File(userSettings[0]+userSettings[1]));
+            writer = new FileWriter(new File(userSettings[0] + userSettings[1]));
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonElement jsonTree = gson.toJsonTree(users);
             gson.toJson(jsonTree, writer);
@@ -108,5 +111,9 @@ public class UserDaoReader implements UserDao {
     
     public String[] getFileName() {
         return userSettings;
+    }
+    
+    public UserService getDatabase() {
+        return userService;
     }
 }

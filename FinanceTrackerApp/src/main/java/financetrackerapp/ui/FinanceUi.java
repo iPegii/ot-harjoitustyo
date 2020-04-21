@@ -11,6 +11,8 @@ import financetrackerapp.dao.FinanceDaoReader;
 import financetrackerapp.dao.UserDao;
 import financetrackerapp.dao.UserDaoReader;
 import financetrackerapp.domain.DaoService;
+import financetrackerapp.mongodb.FinanceService;
+import financetrackerapp.mongodb.UserService;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -41,8 +43,10 @@ public class FinanceUi extends Application {
             String financeFile = prop.getProperty("financeFile");
             String[] usersSettings = new String[] {"resources/", userFile};
             String[] financesSettings = new String[] {"resources/", financeFile};
-            UserDao userDao = new UserDaoReader(usersSettings);
-            FinanceDao financeDao = new FinanceDaoReader(financesSettings);
+            UserService userService = new UserService("ohte");
+            FinanceService financeService = new FinanceService("ohte");
+            UserDao userDao = new UserDaoReader(usersSettings, userService);
+            FinanceDao financeDao = new FinanceDaoReader(financesSettings, financeService);
             
             this.daoService = new DaoService(userDao, financeDao);
         } catch (FileNotFoundException ex) {

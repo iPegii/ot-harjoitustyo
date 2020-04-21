@@ -46,14 +46,13 @@ public class DaoService {
     
     public void createUser(String username, String name) {
         // index[0] = "resources/" && index[1] == "users"
-        String fileName = userDao.getFileName()[0] + userDao.getFileName()[1];
-        UserService userService = new UserService(fileName);
+        UserService userService = userDao.getDatabase();
         User newUser = userService.create(username, name);
         userDao.create(newUser);
     }
     
     public String createFinance(int price, String event, String date, String userId) {
-        FinanceService financeService = new FinanceService("finances");
+        FinanceService financeService = financeDao.getDatabase();
         Finance newFinance = financeService.create(price, event, date, userId);
         if (newFinance != null) {
             String response = financeDao.create(newFinance);

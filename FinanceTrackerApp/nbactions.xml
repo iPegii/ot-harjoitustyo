@@ -4,6 +4,8 @@
             <actionName>CUSTOM-test coverage</actionName>
             <displayName>test coverage</displayName>
             <goals>
+                <goal>mvn</goal>
+                <goal>test</goal>
                 <goal>jacoco:report</goal>
             </goals>
         </action>

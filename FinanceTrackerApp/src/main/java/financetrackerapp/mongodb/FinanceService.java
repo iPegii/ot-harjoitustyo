@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bson.BsonType;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -33,7 +35,6 @@ public class FinanceService {
     private String apiKey;
     private String selectedDatabase;
     private MongoClient client;
-    private MongoCollection<Document> finances;
     
     public FinanceService(String selectedDatabase) {
         Properties prop = new Properties();
@@ -47,19 +48,23 @@ public class FinanceService {
             System.out.println("Error while trying to get api key");
         } finally {
             try {
-                keys.close();
+                if (keys != null) {
+                    keys.close();
+                }
             } catch (IOException e)  {
                 System.out.println("Error closing api key stream");  
             }
         }
-        String apiKey = prop.getProperty("mongodb.uri");
-        this.apiKey = apiKey;
+        this.apiKey = prop.getProperty("mongodb.uri");
         this.selectedDatabase = selectedDatabase;
         
     }
     
     public Finance create(int price, String event, String date, String userId) {
         connect();
+        java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);  
+        MongoDatabase database = client.getDatabase(selectedDatabase);
+        MongoCollection<Document> finances = database.getCollection("finances");
         String id = new ObjectId().toString();
         Document financeDocument = new Document("_id", id);
         financeDocument.append("price", price)
@@ -75,6 +80,8 @@ public class FinanceService {
     public List<Finance> getAll() {
         List<Finance> financeList = new ArrayList<>();
         connect();
+        MongoDatabase database = client.getDatabase(selectedDatabase);
+        MongoCollection<Document> finances = database.getCollection("finances");
         try (MongoCursor<Document> cursor = finances.find().iterator()) {
             Gson gson = new Gson();
             while (cursor.hasNext()) {
@@ -97,16 +104,17 @@ public class FinanceService {
     
     public void deleteAll() {
         connect();
+        MongoDatabase database = client.getDatabase(selectedDatabase);
+        MongoCollection<Document> finances = database.getCollection("finances");
         finances.deleteMany(new Document());
         disconnect();
     }
     
     public void connect() {
         MongoClient mongoClient = null;
+        java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
         try {
             mongoClient = MongoClients.create(apiKey);
-            MongoDatabase database = mongoClient.getDatabase(selectedDatabase);
-            this.finances = database.getCollection("finances");
         } catch (Exception e) {
             System.out.println("Error while connecting to MongoDb: " + e.getMessage());
         }

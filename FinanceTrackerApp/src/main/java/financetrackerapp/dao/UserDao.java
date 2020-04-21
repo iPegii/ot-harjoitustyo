@@ -2,6 +2,7 @@
 package financetrackerapp.dao;
 
 import financetrackerapp.domain.User;
+import financetrackerapp.mongodb.UserService;
 import java.util.List;
 
 public interface UserDao {
@@ -11,4 +12,5 @@ public interface UserDao {
     public String[] getFileName();
   //  public void changeName(String username);
     public void delete(String username);
+    public UserService getDatabase();
 }
