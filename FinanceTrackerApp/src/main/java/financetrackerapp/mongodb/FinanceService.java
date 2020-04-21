@@ -6,24 +6,15 @@
 package financetrackerapp.mongodb;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.mongodb.MongoException;
 import com.mongodb.client.*;
-import com.mongodb.client.model.Filters;
-import static com.mongodb.client.model.Filters.eq;
-import com.mongodb.client.model.ValidationOptions;
 import financetrackerapp.domain.Finance;
-import financetrackerapp.domain.User;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.bson.BsonType;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 /**

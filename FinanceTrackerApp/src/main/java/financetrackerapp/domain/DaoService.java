@@ -9,10 +9,8 @@ import financetrackerapp.dao.FinanceDao;
 import financetrackerapp.dao.UserDao;
 import financetrackerapp.mongodb.FinanceService;
 import financetrackerapp.mongodb.UserService;
-import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.bson.types.ObjectId;
 
 /**
  *
