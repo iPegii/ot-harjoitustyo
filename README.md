@@ -12,7 +12,7 @@ Sovelluksen tarkoituksena on mahdollistaa kulujen seuranta.
 
 ## Ennen ohjelman ajamista
 
-Lisää ohjelman juurikansioon (kansioon, jossa sijaitsee esimerkiksi tiedosto "config.properties" ja kansio "dokumentaatio"), kansio nimeltä "keys.properties" tämän kansion sisälle kirjoitetaan vain ensimmäiselle riville seuraava: `mongodb.uri=mongodb+srv://<Username>:<Password>@<ClusterName>/test?retryWrites=true&w=majority`
+Lisää ohjelman juurikansioon (kansioon, jossa sijaitsee esimerkiksi tiedosto "config.properties" ja kansio "dokumentaatio"), tiedosto nimeltä "keys.properties" tämän kansion sisälle kirjoitetaan vain ensimmäiselle riville seuraava: `mongodb.uri=mongodb+srv://<Username>:<Password>@<ClusterName>/test?retryWrites=true&w=majority`
 
 Eli vaihda `<Username>` ja `<Password>` ja `<ClusterName>` vastaamaan omaa MongoDb-tietokantaasi. 
 
