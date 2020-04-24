@@ -34,7 +34,7 @@ public class FinanceDaoReader implements FinanceDao {
     
     public void init() {
         List<Finance> financesList = financeService.getAll();
-        finances.addAll(financesList);
+        finances = financesList;
         save();
     }
     public void read() throws IOException {
