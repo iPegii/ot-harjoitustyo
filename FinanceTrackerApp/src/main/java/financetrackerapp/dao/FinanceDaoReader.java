@@ -52,7 +52,7 @@ public class FinanceDaoReader implements FinanceDao {
                 List<Finance> financeList = gson.fromJson(reader, financeListType);
                 finances.clear();
                 if (financeList != null) {
-                    finances.addAll(financeList);
+                    finances = financeList;
                 }
                 init();
             } catch (Exception e) {

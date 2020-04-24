@@ -64,8 +64,16 @@ public class DaoService {
             return null;
         } else {
             return financeDao.getAll().stream()
-                .filter(finance -> finance.getUserId() == user.getId())
+                .filter(finance -> finance.getUser().equals(user.getId()))
                 .collect(Collectors.toList());
         }
+    }
+    
+    public int getBalance() {
+        int balance = 0;
+        for(Finance f: getAll()) {
+            balance += f.getPrice();
+        }
+        return balance;
     }
 }

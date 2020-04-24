@@ -6,12 +6,12 @@ public class User {
     
     private String name;
     private String username;
-    private String id;
+    private String _id;
     
     public User(String username, String name, String id) {
         this.name = name;
         this.username = username;
-        this.id = id;
+        this._id = id;
     }
     
     public String getName() {
@@ -23,10 +23,12 @@ public class User {
     }
     
     public String getId() {
-        return this.id;
+        return this._id;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "name=" + name + ", username=" + username + ", id=" + _id + '}';
     }
     
-    public String toString() {
-        return username + ";" + name;
-    }
 }

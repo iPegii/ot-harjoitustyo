@@ -59,7 +59,6 @@ public class UserService {
         Document userDocument = new Document("_id", id);
         userDocument.append("username", username)
             .append("name", name);
-        System.out.println(users);
         users.insertOne(userDocument);
         disconnect();
         

@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -85,7 +86,8 @@ public class FinanceTableUi {
         createForm.add(eventField, 1, 1);
         
         Label dateText = new Label("Date: ");
-        TextField dateField = new TextField();
+        DatePicker dateField = new DatePicker();
+        //TextField dateField = new TextField();
        // DatePicker datePicker = new DatePicker
         createForm.add(dateText, 0, 2);
         createForm.add(dateField, 1, 2);
@@ -96,21 +98,25 @@ public class FinanceTableUi {
         
         TableView tableView = new TableView();
         
+        Label balanceText = new Label("Balance: " + daoService.getBalance());
+        balanceText.setFont( new Font("Arial", 20));
+        
         EventHandler<ActionEvent> createEvent = new EventHandler<ActionEvent>() {
         public void handle(ActionEvent e) {
             String userId = userStatus.getId();
             int price = Integer.valueOf(priceField.getText());
             String event = eventField.getText();
-            String date = dateField.getText();
+            String date = String.valueOf(dateField.getValue());
             daoService.createFinance(price, event, date, userId);
             financesList = daoService.getAll();
             tableView.getItems().clear();
             financesList.forEach((f) -> {
-            tableView.getItems().add(new Finance(f.getId(),f.getPrice(),f.getEvent(), f.getDate(), f.getUserId()));
+            tableView.getItems().add(new Finance(f.getId(),f.getPrice(),f.getEvent(), f.getDate(), f.getUser()));
             });
             priceField.clear();
             eventField.clear();
-            dateField.clear();
+            balanceText.setText("Balance: " + daoService.getBalance());
+        //    dateField.clear();
             }
         };
         createButton.setOnAction(createEvent);
@@ -121,20 +127,20 @@ public class FinanceTableUi {
         public void handle(ActionEvent e) {
             priceField.clear();
             eventField.clear();
-            dateField.clear();
+        //    dateField.clear();
         }
         };
         clearButton.setOnAction(clearEvent);
-        formButtons.setSpacing(55.0);
+      //  formButtons.setSpacing(55.0);
+        
+        HBox.setMargin(createButton, new Insets(0,0,0,75));
+        HBox.setMargin(clearButton, new Insets(0,0,0,5));
         
         topBar.setBottom(createForm);
         // display finance stats
         BorderPane financeStats = new BorderPane();
         page.setCenter(financeStats);
         
-        Label balance = new Label("Balance: 1500");
-        balance.setFont( new Font("Arial", 20));
-
         tableView.setPlaceholder(new Label("No data to display"));
         
         TableColumn<String, Finance> price = new TableColumn<>("Price");
@@ -154,12 +160,12 @@ public class FinanceTableUi {
         }
         */
         financesList.forEach((f) -> {
-            tableView.getItems().add(new Finance(f.getId(),f.getPrice(),f.getEvent(), f.getDate(), f.getUserId()));
+            tableView.getItems().add(new Finance(f.getId(),f.getPrice(),f.getEvent(), f.getDate(), f.getUser()));
         });
         
         financeStats.setCenter(tableView);
-        financeStats.setTop(balance);
-        financeStats.setMargin(balance,new Insets(10));
+        financeStats.setTop(balanceText);
+        financeStats.setMargin(balanceText,new Insets(10));
         
         return overlay;
     }

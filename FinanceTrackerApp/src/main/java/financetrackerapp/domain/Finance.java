@@ -7,15 +7,15 @@ public class Finance {
     private String date;
     private String event;
     private int price;
-    private String id;
-    private String userId;
+    private String _id;
+    private String user;
     
-    public Finance(String id, int price, String event, String date, String userId) {
+    public Finance(String id, int price, String event, String date, String user) {
         this.date = date;
         this.event = event;
         this.price = price;
-        this.id = id;
-        this.userId = userId;
+        this._id = id;
+        this.user = user;
     }
     
     
@@ -32,15 +32,15 @@ public class Finance {
     }
     
     public String getId() {
-        return id;
+        return _id;
     }
-    public String getUserId() {
-        return userId;
+    public String getUser() {
+        return user;
     }
 
     @Override
     public String toString() {
-        return "Finance{" + "date=" + date + ", event=" + event + ", price=" + price + ", id=" + id + ", userId=" + userId + '}';
+        return "Finance{" + "date=" + date + ", event=" + event + ", price=" + price + ", id=" + _id + ", user=" + user + '}';
     }
     
 }

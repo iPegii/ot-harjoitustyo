@@ -112,7 +112,7 @@ public class FinanceDaoTest {
         
         Finance firstFromList = financeReader.getAll().get(0);
         assertEquals(firstFromList.toString(),"Finance{" + "date=" + "01.01.2020" + ", event=" + "test events are great" + ","
-                + " price=" + "50" + ", id=" + financeId + ", userId=" + userId + '}');
+                + " price=" + "50" + ", id=" + financeId + ", user=" + userId + '}');
         
         try(FileReader reader = new FileReader(financeFile)) {
             Gson gson = new Gson();
@@ -121,7 +121,7 @@ public class FinanceDaoTest {
             //CHECKSTYLE.ON: WhitespaceAround
             List<Finance> financeList = gson.fromJson(reader, financeListType);
             assertEquals(financeList.get(0).toString(), "Finance{" + "date=" + "01.01.2020" + ", event=" + "test events are great" + ","
-                + " price=" + "50" + ", id=" + financeId + ", userId=" + userId + '}');
+                + " price=" + "50" + ", id=" + financeId + ", user=" + userId + '}');
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

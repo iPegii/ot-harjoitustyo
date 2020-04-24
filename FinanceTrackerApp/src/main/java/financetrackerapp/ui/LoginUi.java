@@ -121,7 +121,7 @@ public class LoginUi {
       });
       
       userCreateButton.setOnAction((event) -> {
-          System.out.println(usernameField.getText() + " : " + nameField.getText());
+       //   System.out.println(usernameField.getText() + " : " + nameField.getText());
       daoService.createUser(usernameField.getText(), nameField.getText());
       });
       
