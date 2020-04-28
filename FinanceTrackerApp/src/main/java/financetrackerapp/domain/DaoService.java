@@ -134,6 +134,8 @@ public class DaoService {
         String balanceFormatted = formatPrice(balance);
         return balanceFormatted;
     }
+    
+    
     public static String formatPrice(Double price) {
         Locale locale = new Locale("en", "UK");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(locale);
