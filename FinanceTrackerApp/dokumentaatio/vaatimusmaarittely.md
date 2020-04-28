@@ -31,7 +31,7 @@ Sovelluksen on tarkoitus mahdollistaa kulujen seuranta, omaa kulutusta pystyy se
 ### Ominaisuuksia
 
 * Käyttäjät ja tapahtumat tallennetaan pilveen (tehty)
-* Käyttäjä voi valita päivämäärän kalenterista
+* Käyttäjä voi valita päivämäärän kalenterista (tehty)
 
  ## Kehitysideoita
 
