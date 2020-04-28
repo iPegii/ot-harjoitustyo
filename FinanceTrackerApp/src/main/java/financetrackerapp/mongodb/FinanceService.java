@@ -7,6 +7,9 @@ package financetrackerapp.mongodb;
 
 import com.google.gson.Gson;
 import com.mongodb.client.*;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.set;
 import financetrackerapp.domain.Finance;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 /**
@@ -51,7 +55,7 @@ public class FinanceService {
         
     }
     
-    public Finance create(int price, String event, String date, String userId) {
+    public Finance create(double price, String event, String date, String userId) {
         connect();
         java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);  
         MongoDatabase database = client.getDatabase(selectedDatabase);
@@ -99,6 +103,17 @@ public class FinanceService {
         MongoCollection<Document> finances = database.getCollection("finances");
         finances.deleteMany(new Document());
         disconnect();
+    }
+    
+    public void updateFinance(String id, String newPrice, String newEvent, String newDate, String user) {
+        Bson filter = and(eq("_id", id), eq("user", user));
+        
+        
+        MongoDatabase database = client.getDatabase(selectedDatabase);
+        MongoCollection<Document> finances = database.getCollection("finances");
+        
+        finances.updateOne(filter, and(set("price", newPrice), set("event", newEvent), set("date", newDate)));
+        
     }
     
     public void connect() {

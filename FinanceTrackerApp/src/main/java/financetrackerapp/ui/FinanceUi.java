@@ -19,7 +19,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
         
 public class FinanceUi extends Application {
@@ -61,7 +64,7 @@ public class FinanceUi extends Application {
         financeTableUi = new FinanceTableUi(daoService);
 
     }
-    
+
     @Override
     public void start(Stage finance) {
         this.mainStage = finance;
@@ -90,5 +93,6 @@ public class FinanceUi extends Application {
         FinanceUi.mainStage.setHeight(800);
         FinanceUi.mainStage.setScene(financeScene);
     }
+
     
 }

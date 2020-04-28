@@ -6,15 +6,15 @@ public class Finance {
     
     private String date;
     private String event;
-    private int price;
-    private String _id;
+    private double price;
+    private String id;
     private String user;
     
-    public Finance(String id, int price, String event, String date, String user) {
+    public Finance(String id, double price, String event, String date, String user) {
         this.date = date;
         this.event = event;
         this.price = price;
-        this._id = id;
+        this.id = id;
         this.user = user;
     }
     
@@ -27,12 +27,12 @@ public class Finance {
         return event;
     }
     
-    public Integer getPrice() {
+    public double getPrice() {
         return price;
     }
     
     public String getId() {
-        return _id;
+        return id;
     }
     public String getUser() {
         return user;
@@ -40,7 +40,7 @@ public class Finance {
 
     @Override
     public String toString() {
-        return "Finance{" + "date=" + date + ", event=" + event + ", price=" + price + ", id=" + _id + ", user=" + user + '}';
+        return "Finance{" + "date=" + date + ", event=" + event + ", price=" + price + ", id=" + id + ", user=" + user + '}';
     }
     
 }

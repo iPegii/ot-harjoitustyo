@@ -49,7 +49,7 @@ public class DaoService {
         userDao.create(newUser);
     }
     
-    public String createFinance(int price, String event, String date, String userId) {
+    public String createFinance(double price, String event, String date, String userId) {
         FinanceService financeService = financeDao.getDatabase();
         Finance newFinance = financeService.create(price, event, date, userId);
         if (newFinance != null) {
@@ -57,6 +57,23 @@ public class DaoService {
             return response;
         }
         return "Couldn't add this";   
+    }
+    
+    public void updateFinance(Finance finance) {
+        String newPrice = String.valueOf(finance.getPrice());
+        String id = finance.getId();
+        String event = finance.getEvent();
+        String date = finance.getDate();
+        String userId = user.getId();
+        FinanceService financeService = financeDao.getDatabase();
+        financeService.updateFinance(id, newPrice, event, date, userId);
+    }
+    
+    public void updateUser() {
+        String userId = user.getId();
+        String username = user.getUsername();
+        UserService userService = userDao.getDatabase();
+        userService.updateUser(userId, username);
     }
     
     public List<Finance> getAll() {
@@ -69,9 +86,9 @@ public class DaoService {
         }
     }
     
-    public int getBalance() {
-        int balance = 0;
-        for(Finance f: getAll()) {
+    public double getBalance() {
+        double balance = 0;
+        for (Finance f: getAll()) {
             balance += f.getPrice();
         }
         return balance;

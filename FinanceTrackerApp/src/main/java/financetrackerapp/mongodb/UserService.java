@@ -96,8 +96,20 @@ public class UserService {
         this.client = mongoClient;
     }
     
+    public void updateUser(String id, String newName) {
+        
+    }
+    
     public void disconnect() {
         client.close();
+    }
+    
+    public void deleteAll() {
+        connect();
+        MongoDatabase database = client.getDatabase(selectedDatabase);
+        MongoCollection<Document> users = database.getCollection("users");
+        users.deleteMany(new Document());
+        disconnect();
     }
     
 }

@@ -7,8 +7,11 @@ package financetrackerapp;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import financetrackerapp.dao.FinanceDao;
 import financetrackerapp.dao.FinanceDaoReader;
+import financetrackerapp.dao.UserDao;
 import financetrackerapp.dao.UserDaoReader;
+import financetrackerapp.domain.DaoService;
 import financetrackerapp.domain.Finance;
 import financetrackerapp.domain.User;
 import financetrackerapp.mongodb.FinanceService;
@@ -33,7 +36,7 @@ import static org.junit.Assert.*;
  * @author iPegii
  */
 
-public class FinanceDaoTest {
+public class FinanceTest {
     
     private FinanceDaoReader financeReader;
     private UserDaoReader userReader;
@@ -41,11 +44,17 @@ public class FinanceDaoTest {
     private String[] financeFileSettings;
     private String[] userFileSettings;
     
+    UserService userService;
+    FinanceService financeService;
+    
+    
     private File financeFile;
     private File userFile;
     
+    private DaoService daoService;
     
-    public FinanceDaoTest() {
+    
+    public FinanceTest() {
     }
     @BeforeClass
     public static void testInitializing() {
@@ -63,12 +72,14 @@ public class FinanceDaoTest {
                 System.out.println("Error: " + ex.getMessage());
             }
         }
+        financeService.deleteAll();
         if(userFile.exists() && userFile.isFile()) {
             try(PrintWriter userClean = new PrintWriter(userFile)) {
             } catch (Exception ex) {
                 System.out.println("Error: " + ex.getMessage());
             }
         }
+        userService.deleteAll();
     }
     
     @Before
@@ -76,8 +87,8 @@ public class FinanceDaoTest {
         this.financeFileSettings = new String[]{"testResources/", "testFinances.json"};
         this.userFileSettings = new String[]{"testResources/", "testUsers.json"};
         
-        UserService userService = new UserService("ohte-test");
-        FinanceService financeService = new FinanceService("ohte-test");
+        this.userService = new UserService("ohte-test");
+        this.financeService = new FinanceService("ohte-test");
         
         
         this.financeReader = new FinanceDaoReader(financeFileSettings, financeService);
@@ -85,6 +96,10 @@ public class FinanceDaoTest {
 
         this.financeFile = new File(financeFileSettings[0]+financeFileSettings[1]);
         this.userFile = new File(userFileSettings[0]+userFileSettings[1]);
+        
+        FinanceDao financeDao= new FinanceDaoReader(financeFileSettings, financeService);
+        UserDao userDao = new UserDaoReader(userFileSettings, userService);
+        this.daoService = new DaoService(userDao, financeDao);
     }
     
     @Test
@@ -112,7 +127,7 @@ public class FinanceDaoTest {
         
         Finance firstFromList = financeReader.getAll().get(0);
         assertEquals(firstFromList.toString(),"Finance{" + "date=" + "01.01.2020" + ", event=" + "test events are great" + ","
-                + " price=" + "50" + ", id=" + financeId + ", user=" + userId + '}');
+                + " price=" + "50.0" + ", id=" + financeId + ", user=" + userId + '}');
         
         try(FileReader reader = new FileReader(financeFile)) {
             Gson gson = new Gson();
@@ -121,7 +136,7 @@ public class FinanceDaoTest {
             //CHECKSTYLE.ON: WhitespaceAround
             List<Finance> financeList = gson.fromJson(reader, financeListType);
             assertEquals(financeList.get(0).toString(), "Finance{" + "date=" + "01.01.2020" + ", event=" + "test events are great" + ","
-                + " price=" + "50" + ", id=" + financeId + ", user=" + userId + '}');
+                + " price=" + "50.0" + ", id=" + financeId + ", user=" + userId + '}');
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -143,6 +158,28 @@ public class FinanceDaoTest {
         }
     assertTrue(financeReader.getAll() != null);
         
+    }
+    
+    @Test
+    public void correctNumberOfFinancesStored() {
+        String username = "Pegi";
+        String name = "Pegii";
+        daoService.createUser(username, name);
+        daoService.login("Pegi");
+        String id = daoService.loggedIn().getId();
+        daoService.createFinance(50, "Great test event 1", "2020.04.27", id);
+        daoService.createFinance(50, "Great test event 2", "2020.04.27", id);
+        daoService.createFinance(50, "Great test event 3", "2020.04.27", id);
+        daoService.createFinance(50, "Great test event 4", "2020.04.27", id);
+        
+        assertTrue("correct number of finances not created", daoService.getAll().size() == 4);
+        
+        FinanceDao financeTester= new FinanceDaoReader(financeFileSettings, financeService);
+        UserDao userTester = new UserDaoReader(userFileSettings, userService);
+        DaoService duplicateTester = new DaoService(userTester, financeTester);
+        duplicateTester.login(username);
+        
+        assertTrue("finances duplicated on launch",duplicateTester.getAll().size() == 4);
     }
     /*
     @Test
