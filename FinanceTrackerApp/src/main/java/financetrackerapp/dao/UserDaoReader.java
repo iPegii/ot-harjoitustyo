@@ -85,9 +85,6 @@ public class UserDaoReader implements UserDao {
     }
     
     public User create(User user) {
-        if (findByUsername(user.getUsername()) != null) {
-            return null;
-        }
         users.add(user);
         save();
         return user;

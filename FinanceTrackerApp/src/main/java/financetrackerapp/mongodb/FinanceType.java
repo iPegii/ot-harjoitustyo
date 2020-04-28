@@ -22,9 +22,12 @@ import org.bson.json.JsonParseException;
 
 
 
-
+/**
+ * This class is used to convert MongoDb's "_id" to "id",
+ * so that Gson can convert Json to Java object
+ */
 public class FinanceType implements JsonDeserializer<Finance> {
-    
+    /* */
     @Override
     public Finance deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         

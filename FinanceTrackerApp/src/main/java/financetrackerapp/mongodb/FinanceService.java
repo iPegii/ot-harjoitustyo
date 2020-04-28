@@ -26,8 +26,13 @@ import org.bson.types.ObjectId;
  *
  * @author iPegii
  */
+
+
+/**
+ * This class is used to communicate between MongoDb and the app,
+ * more precisely to communicate with finances-collection
+ */
 public class FinanceService {
-    
     private String apiKey;
     private String selectedDatabase;
     private MongoClient client;
@@ -56,6 +61,12 @@ public class FinanceService {
         
     }
     
+ /**
+ * Method creates finance to MongoDb, finances are always linked to user by id.
+ * 
+ * 
+ * @return Created finance
+ */
     public Finance create(double price, String event, String date, String userId) {
         connect();
         java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);  
@@ -68,7 +79,6 @@ public class FinanceService {
             .append("date", date)
             .append("user", userId);
         finances.insertOne(financeDocument);
-        System.out.println(financeDocument);
         Finance finance = new Finance(id, price, event, date, userId);
         disconnect();
         return finance;

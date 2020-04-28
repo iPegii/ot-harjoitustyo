@@ -62,6 +62,7 @@ public class FinanceUi extends Application {
         }
         loginUi = new LoginUi(daoService);
         financeTableUi = new FinanceTableUi(daoService);
+     //   daoService.
 
     }
 

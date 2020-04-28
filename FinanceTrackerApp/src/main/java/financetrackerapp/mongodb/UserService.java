@@ -28,6 +28,11 @@ public class UserService {
     private String selectedDatabase;
     private MongoClient client;
     
+    
+ /**
+ * This class is used to communicate between MongoDb and the app,
+ * more precisely to communicate with users-collection
+ */
     public UserService(String selectedDatabase) {
         Properties prop = new Properties();
         FileInputStream keys = null;
@@ -51,6 +56,13 @@ public class UserService {
         this.selectedDatabase = selectedDatabase;
     }
     
+    
+ /**
+ * Method creates user to MongoDb
+ * 
+ * 
+ * @return Created user
+ */
     public User create(String username, String name) {
         connect();
         MongoDatabase database = client.getDatabase(selectedDatabase);

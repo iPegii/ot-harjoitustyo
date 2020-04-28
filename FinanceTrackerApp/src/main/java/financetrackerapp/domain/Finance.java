@@ -18,7 +18,6 @@ public class Finance {
         this.user = user;
     }
     
-    
     public String getDate() {
         return date;
     }
@@ -36,6 +35,10 @@ public class Finance {
     }
     public String getUser() {
         return user;
+    }
+    
+    public String getFormattedPrice() {
+        return DaoService.formatPrice(price);
     }
 
     @Override

@@ -19,8 +19,9 @@ Päivä   |Aika| Mitä tein
 24.4    | 2.5| Bugien korjausta ja käyttöliittymän parannuksia
 25.4    | 1.5| Käyttöliittymän parannusta
 27.4    | 1  | Testejen lisäämistä
+28.4    | 3  | käyttöliittymän parannuksia, JavaDoc-dokumentointia lisätty
 
-Yhteensä| 36.5 | 
+Yhteensä| 39.5 | 
 
 
 

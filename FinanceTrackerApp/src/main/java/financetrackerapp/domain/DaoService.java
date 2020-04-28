@@ -9,7 +9,10 @@ import financetrackerapp.dao.FinanceDao;
 import financetrackerapp.dao.UserDao;
 import financetrackerapp.mongodb.FinanceService;
 import financetrackerapp.mongodb.UserService;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -25,6 +28,18 @@ public class DaoService {
         this.financeDao = financeDao;
     }
     
+    
+ /**
+ * Method takes username as parameter, logs user in and returns
+ * the User-object logged in. 
+ * 
+ * @param username Username of the user
+ * 
+ * @see financetrackerapp.domain.User
+
+ *
+ * @return User
+ */
     public User login(String username) {
         User userObject = userDao.findByUsername(username);
         if (userObject == null) {
@@ -41,14 +56,39 @@ public class DaoService {
             return user;
         }
     }
-    
-    public void createUser(String username, String name) {
-        // index[0] = "resources/" && index[1] == "users"
-        UserService userService = userDao.getDatabase();
-        User newUser = userService.create(username, name);
-        userDao.create(newUser);
+/**
+ * Method takes username and name, 
+ * new User-object is created if unique
+ * 
+ * @param username Username of the user
+ * @param name Nickname for the user
+ * 
+ * @see financetrackerapp.mongodb.UserService#create(String,String)
+ * 
+ * @return luotu käyttäjä tai null
+ */
+    public User createUser(String username, String name) {
+        if (userDao.findByUsername(username) == null) {
+            UserService userService = userDao.getDatabase();
+            User newUser = userService.create(username, name);
+            return userDao.create(newUser);
+        }
+        return null;
     }
     
+    
+ /**
+ * Method takes price and name, 
+ * new User-object is created if unique
+ * 
+ * @param price value of the event done
+     * @param event description of the event
+     * @param date  time of the event
+     * @param userId user who made event in question
+     * @return Was the operation succesful
+ * 
+ * @see financetrackerapp.mongodb.FinanceService#create(double, String , String , String )
+ */
     public String createFinance(double price, String event, String date, String userId) {
         FinanceService financeService = financeDao.getDatabase();
         Finance newFinance = financeService.create(price, event, date, userId);
@@ -86,11 +126,22 @@ public class DaoService {
         }
     }
     
-    public double getBalance() {
+    public String getBalance() {
         double balance = 0;
         for (Finance f: getAll()) {
             balance += f.getPrice();
         }
-        return balance;
+        String balanceFormatted = formatPrice(balance);
+        return balanceFormatted;
+    }
+    public static String formatPrice(Double price) {
+        Locale locale = new Locale("en", "UK");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(locale);
+        symbols.setDecimalSeparator(',');
+        symbols.setGroupingSeparator('.');
+        String pattern = "###,###.##";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
+        String formattedPrice = decimalFormat.format(price);
+        return formattedPrice;
     }
 }

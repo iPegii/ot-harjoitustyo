@@ -19,8 +19,14 @@ import org.bson.json.JsonParseException;
  *
  * @author iPegii
  */
+
+
+/**
+ * This class is used to convert MongoDb's "_id" to "id",
+ * so that Gson can convert Json to Java object
+ */
 public class UserType implements JsonDeserializer<User> {
-    
+   /* */ 
     @Override
     public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         

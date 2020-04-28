@@ -7,17 +7,24 @@ package financetrackerapp.ui;
 
 import financetrackerapp.domain.DaoService;
 import financetrackerapp.domain.User;
+import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -28,6 +35,9 @@ public class LoginUi {
     private DaoService daoService;
     private boolean createUserIsTrue;
     private Stage mainStage;
+    private HBox notificationBox;
+    private Label notification;
+    
     
     public LoginUi(DaoService daoService) {
         this.daoService = daoService;
@@ -54,6 +64,15 @@ public class LoginUi {
       Button loginButton = new Button("Login");
       Button createButtonSwitch = new Button("Create");
       
+      notificationBox = new HBox();
+      notification = new Label("");
+      notificationBox.setVisible(false);
+      notificationBox.setManaged(false);
+      notification.setFont(Font.font ("Verdana", 15));
+      notification.setTextFill(Color.WHITE);
+      notificationBox.getChildren().add(notification);
+      baseOverlay.setTop(notificationBox);
+      
       loginScreenPane.getChildren().add(loginOverlay);
       loginScreenPane.getChildren().add(loginButtonLayer);
 
@@ -70,6 +89,7 @@ public class LoginUi {
       if(user != null) {
       FinanceUi.setFinanceScene();
       }
+      setNotification("User not found", 5, "WARN");
       });
       
       VBox createUserPane = new VBox();
@@ -122,13 +142,44 @@ public class LoginUi {
       
       userCreateButton.setOnAction((event) -> {
        //   System.out.println(usernameField.getText() + " : " + nameField.getText());
-      daoService.createUser(usernameField.getText(), nameField.getText());
+      if(daoService.createUser(usernameField.getText(), nameField.getText()) != null) {
+      setNotification("User created", 5, "INFO");
+      } else {
+      setNotification("This username is already taken", 5, "WARN");
+      }
       });
       
       
       
       return baseOverlay;
     }
+    
+    public void setNotification(String notificationText, int time, String type) {
+        PauseTransition delay = new PauseTransition();
+        delay.setDuration(Duration.seconds(time));
+        delay.setOnFinished(event ->  {
+            notification.setText(null);
+            notificationBox.setVisible(false);
+            notificationBox.setManaged(false);
+        });
+        
+        if(type.equals("INFO")) {
+            Background backgroundColor = new Background(new BackgroundFill(Color.rgb(47, 201, 0), CornerRadii.EMPTY, Insets.EMPTY));
+            notificationBox.setBackground(backgroundColor);
+        } else if(type.equals("ERROR")) {
+            Background backgroundColor = new Background(new BackgroundFill(Color.rgb(224, 9, 9), CornerRadii.EMPTY, Insets.EMPTY));
+            notificationBox.setBackground(backgroundColor);
+        } else if(type.equals("WARN")){
+            Background backgroundColor = new Background(new BackgroundFill(Color.rgb(59, 58, 74), CornerRadii.EMPTY, Insets.EMPTY));
+            notificationBox.setBackground(backgroundColor);  
+        }
+        
+        notification.setText(notificationText);
+        notificationBox.setManaged(true);
+        notificationBox.setVisible(true);
+        delay.play();
+    }
+    
     
     
 }

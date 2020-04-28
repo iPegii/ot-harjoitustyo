@@ -117,9 +117,10 @@ public class FinanceTableUi {
         
         notificationBox = new HBox();
         notification = new Label(null);
+        notification.setFont(Font.font ("Verdana", 20));
+        notification.setTextFill(Color.WHITE);
         notificationBox.getChildren().add(notification);
         mainScene.setTop(notificationBox);
-        notification.setFont( new Font("Arial", 20));
         HBox.setMargin(notification, new Insets(0,0,0,10));
         notificationBox.setVisible(false);
         notificationBox.setManaged(false);
@@ -178,12 +179,11 @@ public class FinanceTableUi {
         
         tableView.setPlaceholder(new Label("No data to display"));
         
-        TableColumn<String, Finance> price = new TableColumn<>("Price");
+        TableColumn<Finance, String> price = new TableColumn<>("Price");
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
-        TableColumn<String, Finance> financeEvent = new TableColumn<>("Event");
+        TableColumn<Finance, String> financeEvent = new TableColumn<>("Event");
         financeEvent.setCellValueFactory(new PropertyValueFactory<>("event"));
-        TableColumn<String, Finance> date = new TableColumn<>("Date");
+        TableColumn<Finance, String> date = new TableColumn<>("Date");
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         
         tableView.getColumns().add(price);
@@ -257,7 +257,7 @@ public class FinanceTableUi {
             Background backgroundColor = new Background(new BackgroundFill(Color.rgb(224, 9, 9), CornerRadii.EMPTY, Insets.EMPTY));
             notificationBox.setBackground(backgroundColor);
         } else if(type.equals("WARN")){
-            Background backgroundColor = new Background(new BackgroundFill(Color.rgb(230, 164, 0), CornerRadii.EMPTY, Insets.EMPTY));
+            Background backgroundColor = new Background(new BackgroundFill(Color.rgb(59, 58, 74), CornerRadii.EMPTY, Insets.EMPTY));
             notificationBox.setBackground(backgroundColor);  
         }
         notification.setText(notificationText);
