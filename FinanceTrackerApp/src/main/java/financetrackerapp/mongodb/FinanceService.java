@@ -6,6 +6,7 @@
 package financetrackerapp.mongodb;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mongodb.client.*;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
@@ -67,6 +68,7 @@ public class FinanceService {
             .append("date", date)
             .append("user", userId);
         finances.insertOne(financeDocument);
+        System.out.println(financeDocument);
         Finance finance = new Finance(id, price, event, date, userId);
         disconnect();
         return finance;
@@ -78,7 +80,8 @@ public class FinanceService {
         MongoDatabase database = client.getDatabase(selectedDatabase);
         MongoCollection<Document> finances = database.getCollection("finances");
         try (MongoCursor<Document> cursor = finances.find().iterator()) {
-            Gson gson = new Gson();
+            // FinanceType used to handle MongoDb "_id"
+            Gson gson = new GsonBuilder().registerTypeAdapter(Finance.class, new FinanceType()).create();
             while (cursor.hasNext()) {
                 String json = cursor.next().toJson();
                 Finance finance = gson.fromJson(json, Finance.class);

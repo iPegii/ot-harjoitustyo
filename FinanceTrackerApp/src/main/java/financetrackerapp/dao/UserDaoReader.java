@@ -31,7 +31,7 @@ public class UserDaoReader implements UserDao {
     
     public void init() {
         List<User> userList = userService.getAll();
-        users.addAll(userList);
+        this.users = userList;
         save();
     }
 
@@ -49,7 +49,7 @@ public class UserDaoReader implements UserDao {
                 List<User> userList = gson.fromJson(reader, userListType);
                 users.clear();
                 if (userList != null) {
-                    users.addAll(userList);
+                    this.users = userList;
                 }
                 init();
             } catch (IOException e) {

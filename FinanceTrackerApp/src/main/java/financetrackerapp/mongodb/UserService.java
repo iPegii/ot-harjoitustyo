@@ -6,6 +6,7 @@
 package financetrackerapp.mongodb;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mongodb.client.*;
 import financetrackerapp.domain.User;
 import java.io.FileInputStream;
@@ -61,7 +62,6 @@ public class UserService {
             .append("name", name);
         users.insertOne(userDocument);
         disconnect();
-        
         User user = new User(username, name, id);
         return user;
     }
@@ -72,7 +72,8 @@ public class UserService {
         MongoDatabase database = client.getDatabase(selectedDatabase);
         MongoCollection<Document> users = database.getCollection("users");
         try (MongoCursor<Document> cursor = users.find().iterator()) {
-            Gson gson = new Gson();
+            // UserType used to handle MongoDb "_id"
+            Gson gson = new GsonBuilder().registerTypeAdapter(User.class, new UserType()).create();
             while (cursor.hasNext()) {
                 String json = cursor.next().toJson();
                 User user = gson.fromJson(json, User.class);

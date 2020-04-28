@@ -4,17 +4,17 @@ package financetrackerapp.domain;
 
 public class Finance {
     
-    private String date;
-    private String event;
-    private double price;
     private String id;
+    private double price;
+    private String event;
+    private String date;
     private String user;
     
     public Finance(String id, double price, String event, String date, String user) {
-        this.date = date;
-        this.event = event;
-        this.price = price;
         this.id = id;
+        this.price = price;
+        this.event = event;
+        this.date = date;
         this.user = user;
     }
     
