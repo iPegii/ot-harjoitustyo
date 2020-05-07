@@ -9,4 +9,6 @@ public interface FinanceDao {
     public List<Finance> getAll();
     public String[] getFileName();
     public FinanceService getDatabase();
+    public void updateFinance(Finance finance);
+    public void deleteFinance(String id);
 }

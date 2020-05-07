@@ -73,14 +73,14 @@ public class FinanceUi extends Application {
         finance.setTitle("Finance Tracker");
         finance.setScene(loginScene);
         finance.setWidth(300);
-        finance.setHeight(180);
+        finance.setHeight(230);
         finance.show();
     }
     
     public static void setLoginScene() {
         Scene loginScene = new Scene(loginUi.getLoginScreen(mainStage));
         FinanceUi.mainStage.setWidth(300);
-        FinanceUi.mainStage.setHeight(200);
+        FinanceUi.mainStage.setHeight(230);
         FinanceUi.mainStage.setX(800);
         FinanceUi.mainStage.setY(350);
         FinanceUi.mainStage.setScene(loginScene);

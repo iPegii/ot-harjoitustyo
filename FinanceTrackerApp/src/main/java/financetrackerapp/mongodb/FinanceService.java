@@ -11,6 +11,8 @@ import com.mongodb.client.*;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import financetrackerapp.domain.Finance;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -104,10 +106,13 @@ public class FinanceService {
         return financeList;
     }
     
-    public void delete(ObjectId id, ObjectId userId) {
+    public Boolean deleteFinance(String id, String userId) {
         connect();
-           // finances.deleteOne(eq("_id", id), eq("user"));
+        MongoDatabase database = client.getDatabase(selectedDatabase);
+        MongoCollection<Document> finances = database.getCollection("finances");
+        DeleteResult result = finances.deleteOne(eq("_id", id));
         disconnect();
+        return result.wasAcknowledged();
     }
     
     public void deleteAll() {
@@ -118,15 +123,21 @@ public class FinanceService {
         disconnect();
     }
     
-    public void updateFinance(String id, String newPrice, String newEvent, String newDate, String user) {
-        Bson filter = and(eq("_id", id), eq("user", user));
-        
-        
+    public Document updateFinance(String id, String newPrice, String newEvent, String newDate, String user) {
+        connect();
         MongoDatabase database = client.getDatabase(selectedDatabase);
         MongoCollection<Document> finances = database.getCollection("finances");
-        
-        finances.updateOne(filter, and(set("price", newPrice), set("event", newEvent), set("date", newDate)));
-        
+        System.out.println(newEvent + " : " + newPrice);
+        Bson filter = and(eq("_id", id), eq("user", user));
+        Document financeDocument = new Document("_id", id);
+        financeDocument.append("price", newPrice)
+            .append("event", newEvent)
+            .append("date", newDate)
+            .append("user", user);
+        Document result = finances.findOneAndReplace(filter, financeDocument);
+        System.out.println(result);
+        disconnect();
+        return result;
     }
     
     public void connect() {

@@ -8,6 +8,8 @@ package financetrackerapp.mongodb;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.client.*;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
 import financetrackerapp.domain.User;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 /**
@@ -63,7 +66,7 @@ public class UserService {
  * 
  * @return Created user
  */
-    public User create(String username, String name) {
+    public User create(String username, String name, String passwordHash) {
         connect();
         MongoDatabase database = client.getDatabase(selectedDatabase);
         MongoCollection<Document> users = database.getCollection("users");
@@ -71,10 +74,11 @@ public class UserService {
         String id =  new ObjectId().toString();
         Document userDocument = new Document("_id", id);
         userDocument.append("username", username)
-            .append("name", name);
+            .append("name", name)
+            .append("password", passwordHash);
         users.insertOne(userDocument);
         disconnect();
-        User user = new User(username, name, id);
+        User user = new User(username, name, id, passwordHash);
         return user;
     }
     
@@ -109,8 +113,19 @@ public class UserService {
         this.client = mongoClient;
     }
     
-    public void updateUser(String id, String newName) {
-        
+    public Document updateUser(String id, String username, String newName, String passwordHash) {
+        connect();
+        MongoDatabase database = client.getDatabase(selectedDatabase);
+        MongoCollection<Document> users = database.getCollection("users");
+        Bson filter = and(eq("_id", id), eq("password", passwordHash));
+        Document userDocument = new Document("_id", id);
+        userDocument.append("username", username)
+            .append("name", newName)
+            .append("password", passwordHash);
+            
+        Document result = users.findOneAndReplace(filter, userDocument);
+        disconnect();
+        return result;
     }
     
     public void disconnect() {

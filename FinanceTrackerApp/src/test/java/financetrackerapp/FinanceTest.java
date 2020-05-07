@@ -119,7 +119,8 @@ public class FinanceTest {
     @Test
     public void readerCreatesFinanceToListAndToFile() {
         String userId = new ObjectId().toString();
-        User user = new User("Pegi", "Pegii", userId);
+        String passwordHash = daoService.createPasswordHash(userId);
+        User user = new User("Pegi", "Pegii", userId, passwordHash);
         userReader.create(user);
         String financeId = new ObjectId().toString();
         Finance finance = new Finance(financeId, 50, "test events are great", "01.01.2020", user.getId());

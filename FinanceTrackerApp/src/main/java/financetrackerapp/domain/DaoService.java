@@ -5,6 +5,7 @@
  */
 package financetrackerapp.domain;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import financetrackerapp.dao.FinanceDao;
 import financetrackerapp.dao.UserDao;
 import financetrackerapp.mongodb.FinanceService;
@@ -14,6 +15,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+import org.bson.Document;
 
 /**
  *
@@ -40,13 +42,17 @@ public class DaoService {
  *
  * @return User
  */
-    public User login(String username) {
+    public String login(String username, String password) {
         User userObject = userDao.findByUsername(username);
         if (userObject == null) {
-            return null;
+            return "User not found";
         } else {
+            if(checkPasswordHash(userObject, password) == true) {
             this.user = userObject;
-            return userObject;
+            return "true";
+            } else {
+                return "Password was incorrect";
+            }
         }
     }
     public User loggedIn() {
@@ -62,15 +68,17 @@ public class DaoService {
  * 
  * @param username Username of the user
  * @param name Nickname for the user
+ * @param password password of the user
  * 
  * @see financetrackerapp.mongodb.UserService#create(String,String)
  * 
  * @return luotu käyttäjä tai null
  */
-    public User createUser(String username, String name) {
+    public User createUser(String username, String name, String password) {
         if (userDao.findByUsername(username) == null) {
+            String passwordHash = createPasswordHash(password);
             UserService userService = userDao.getDatabase();
-            User newUser = userService.create(username, name);
+            User newUser = userService.create(username, name, passwordHash);
             return userDao.create(newUser);
         }
         return null;
@@ -99,24 +107,43 @@ public class DaoService {
         return "Couldn't add this";   
     }
     
-    public void updateFinance(Finance finance) {
+    public Boolean updateFinance(Finance finance) {
+        System.out.println("Updating");
         String newPrice = String.valueOf(finance.getPrice());
         String id = finance.getId();
         String event = finance.getEvent();
         String date = finance.getDate();
         String userId = user.getId();
         FinanceService financeService = financeDao.getDatabase();
-        financeService.updateFinance(id, newPrice, event, date, userId);
+        Document result = financeService.updateFinance(id, newPrice, event, date, userId);
+        if(result.get("_id").equals(id)) {
+        System.out.println("Updating files");
+        financeDao.updateFinance(finance);
+        }
+        return result.get("_id").equals(id);
     }
     
-    public void updateUser() {
+    public Boolean deleteFinance(String id) {
+        FinanceService financeService = financeDao.getDatabase();
+        Boolean result = financeService.deleteFinance(id, user.getId());
+        if(result == true) {
+            financeDao.deleteFinance(id);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean updateUser(String newName) {
         String userId = user.getId();
         String username = user.getUsername();
         UserService userService = userDao.getDatabase();
-        userService.updateUser(userId, username);
+        String passwordHash = user.getPasswordHash();
+        
+        Document result = userService.updateUser(userId, username, newName, passwordHash);
+        return result.get("_id").equals(userId);
     }
     
-    public List<Finance> getAll() {
+    public List<Finance> getAllFinances() {
         if (user == null) {
             return null;
         } else {
@@ -126,9 +153,14 @@ public class DaoService {
         }
     }
     
+    public List<User> getAllUsers() {
+            return userDao.getAll().stream()
+                .collect(Collectors.toList());
+    }
+    
     public String getBalance() {
         double balance = 0;
-        for (Finance f: getAll()) {
+        for (Finance f: getAllFinances()) {
             balance += f.getPrice();
         }
         String balanceFormatted = formatPrice(balance);
@@ -145,5 +177,15 @@ public class DaoService {
         DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
         String formattedPrice = decimalFormat.format(price);
         return formattedPrice;
+    }
+    
+    public String createPasswordHash(String password) {
+        String hash = BCrypt.withDefaults().hashToString(10, password.toCharArray());
+        return hash;
+    }
+    
+    public Boolean checkPasswordHash(User userToLogin, String password) {
+    BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), userToLogin.getPasswordHash());
+    return result.verified;
     }
 }

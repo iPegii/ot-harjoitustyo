@@ -20,8 +20,10 @@ Päivä   |Aika| Mitä tein
 25.4    | 1.5| Käyttöliittymän parannusta
 27.4    | 1  | Testejen lisäämistä
 28.4    | 3  | käyttöliittymän parannuksia, JavaDoc-dokumentointia lisätty
+2.5     | 6  | Salasanan lisääminen
+7.5     | 4  | Tapahtumien muuttaminen ja poistaminen lisätty
 
-Yhteensä| 39.5 | 
+Yhteensä| 45.5 | 
 
 
 

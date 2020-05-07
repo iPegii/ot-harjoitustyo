@@ -10,6 +10,7 @@ import java.util.List;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import financetrackerapp.mongodb.FinanceService;
+import financetrackerapp.mongodb.FinanceType;
 import java.io.FileReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
@@ -80,6 +81,19 @@ public class FinanceDaoReader implements FinanceDao {
         return response;
     }
     
+    public void updateFinance(Finance newFinance) {
+        List<Finance> newList = new ArrayList<>();
+        for(Finance f: finances) {
+            if(f.getId().equals(newFinance.getId())) {
+               newList.add(newFinance);
+            } else {
+               newList.add(f);
+            }
+        }
+        finances = newList;
+        save();
+}
+    
     public String[] getFileName() {
         return financeSettings;
     }
@@ -97,8 +111,8 @@ public class FinanceDaoReader implements FinanceDao {
                 .collect(Collectors.toList());
     }
     */
-    /*
-    public void delete(String id) {
+    
+    public void deleteFinance(String id) {
         Finance financeToRemove = null;
         for(Finance f: finances) {
             if(f.getId().equals(id)) {
@@ -113,5 +127,5 @@ public class FinanceDaoReader implements FinanceDao {
         }
         save();
     }
-    */
+    
 }

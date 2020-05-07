@@ -1,6 +1,8 @@
 
 package financetrackerapp.domain;
 
+import javafx.scene.control.Button;
+
 
 public class Finance {
     
@@ -9,6 +11,9 @@ public class Finance {
     private String event;
     private String date;
     private String user;
+    private transient String formattedPrice;
+    private transient Button removeButton;
+    private transient Button modifyButton;
     
     public Finance(String id, double price, String event, String date, String user) {
         this.id = id;
@@ -16,6 +21,9 @@ public class Finance {
         this.event = event;
         this.date = date;
         this.user = user;
+        this.formattedPrice = getFormattedPrice();
+        this.modifyButton = new Button("Modify event");
+        this.removeButton = new Button("Remove event");
     }
     
     public String getDate() {
@@ -37,7 +45,20 @@ public class Finance {
         return user;
     }
     
+    public Button getRemoveButton() {
+        return removeButton;
+    }
+    
+    public Button getModifyButton() {
+        return modifyButton;
+    }
+    
+ /**
+ * returns objects price formatted
+ * @see financetrackerapp.domain.DaoService#formatPrice(java.lang.Double) 
+ */
     public String getFormattedPrice() {
+        formattedPrice = DaoService.formatPrice(price);
         return DaoService.formatPrice(price);
     }
 

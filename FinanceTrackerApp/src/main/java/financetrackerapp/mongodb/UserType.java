@@ -29,13 +29,12 @@ public class UserType implements JsonDeserializer<User> {
    /* */ 
     @Override
     public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        
         JsonObject userJson = json.getAsJsonObject();
         String id = userJson.get("_id").getAsString();
         String username = userJson.get("username").getAsString();
         String name = userJson.get("name").getAsString();
-        
-        return new User(username, name, id);
+        String passwordHash = userJson.get("password").getAsString();
+        return new User(username, name, id, passwordHash);
     }
     
     

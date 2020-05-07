@@ -27,6 +27,8 @@ Sovelluksen on tarkoitus mahdollistaa kulujen seuranta, omaa kulutusta pystyy se
 * Käyttäjä näkee yleisen saldon (tehty)
 * Käyttäjä voi luoda tapahtumia seurantaan (tehty)
 * Käyttäjä voi muokata nimimerkkiä
+* Käyttäjä voi muokata tapahtumia
+* Käyttäjä voi poistaa tapahtumia
 
 ### Ominaisuuksia
 

@@ -5,6 +5,7 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import financetrackerapp.domain.User;
 import financetrackerapp.mongodb.UserService;
+import financetrackerapp.mongodb.UserType;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -44,7 +45,7 @@ public class UserDaoReader implements UserDao {
             try (FileReader reader = new FileReader(userSettings[0] + userSettings[1])) {
                 Gson gson = new Gson();
                 //CHECKSTYLE.OFF: WhitespaceAround - Curly braces need whitespaces, ignoring makes this more readable
-                Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
+                Type userListType = new TypeToken<ArrayList<UserType>>(){}.getType();
                 //CHECKSTYLE.ON: WhitespaceAround
                 List<User> userList = gson.fromJson(reader, userListType);
                 users.clear();
