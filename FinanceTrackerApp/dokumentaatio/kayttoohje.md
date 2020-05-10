@@ -4,7 +4,7 @@
 
 ## Konfigurointi
 
-Laita sovelluksen juuritiedostoon tiedosto keys.properties kuten kuvassa.
+Laita sovelluksen juuritiedostoon tiedosto keys.properties kuten kuvassa.  
 ![Tiedosto](/FinanceTrackerApp/dokumentaatio/kuvat/kayttoohje-part1.png)  
 
 config.properties tiedostossa voi muuttaa tiedostojen nimiä, johon tiedot tallenneteaan. Sisältö on valmiiksi toimiva: 
