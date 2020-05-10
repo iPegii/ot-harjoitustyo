@@ -33,7 +33,18 @@ Testauksen ulkopuolelle on jäänyt monia try-catch-lohkoja, joissa tapahtuisi e
 
 #### Sovellus on testattu manuaalisesti käyttöliittymästä.  
   
-Sovellus on kloonattu, konfigurointi ja käynnistys on tehty [Käyttöohjeen](/FinanceTrackerApp/dokumentaatio/kayttoohje.md) mukaan. Käyttäjä on luotu, kirjauduttu, tehty tapahtuma, muokattu tapahtumaa, lopuksi poistettu tapahtuma ja kirjauduttu ulos.
+Sovellus on kloonattu, konfigurointi ja käynnistys on tehty [Käyttöohjeen](/FinanceTrackerApp/dokumentaatio/kayttoohje.md) mukaan.
+
+
+### Toiminnallisuus
+ Käyttäjä on luotu, kirjauduttu, tehty tapahtuma, muokattu tapahtumaa, lopuksi poistettu tapahtuma ja kirjauduttu ulos.
+
+ [Vaatimusmäärittely](/FinanceTrackerApp/dokumentaatio/vaatimusmaarittely.md)-dokumentin mukaiset toiminnot on varmistettu, myös erilaisia kenttiä ja lomakkeiden toimintaa virhetilanteissa on testattu.
+
+
+ ## Sovellukseen jääneeitä puutteita
+
+ * Erilaisista I/O liittyvistä virheistä tulee vain vain konsoliin ilmoitus, ongelma toistuu myös JSON-muunnoksissa ja muissa try-catch-lohko virheissä.
 
 
 

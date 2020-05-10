@@ -101,8 +101,8 @@ public class UserService {
     
     public void connect() {
         MongoClient mongoClient = null;
+        java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE); 
         try {
-            java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE); 
             mongoClient = MongoClients.create(apiKey);
         } catch (Exception e) {
             System.out.println("Error while connecting to MongoDb: " + e.getMessage());
