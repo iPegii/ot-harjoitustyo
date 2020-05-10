@@ -160,7 +160,8 @@ public class FinanceCellObject {
                 }, priceField.textProperty());
                 
                 BooleanBinding eventFieldBoolean = Bindings.createBooleanBinding(() -> {
-                    if (eventField.textProperty().getValue() != null || eventField.textProperty().getValue().trim().length() > 2) {
+                    if (eventField.textProperty().getValue() != null && eventField.textProperty().getValue().trim().length() > 2) {
+                        System.out.println(eventField.textProperty().getValue().trim().length());
                         return true;
                     } else {
                         return false;

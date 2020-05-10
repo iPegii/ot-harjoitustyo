@@ -29,7 +29,7 @@ Sovelluksen ajettavan jar-tiedoston luominen seuraavalla komennolla
 
 `mvn package`
 
-Sovelluksen ajaminen onnistuu komennolla
+Sovelluksen ajaminen onnistuu komennolla  
 `mvn compile exec:java -Dexec.mainClass=financetrackerapp.Main`
 
 ### Testaaminen

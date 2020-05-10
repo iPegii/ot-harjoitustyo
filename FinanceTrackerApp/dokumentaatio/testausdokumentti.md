@@ -31,5 +31,11 @@ Testauksen ulkopuolelle on jäänyt monia try-catch-lohkoja, joissa tapahtuisi e
 
 ### Järjestelmätestaus
 
+#### Sovellus on testattu manuaalisesti käyttöliittymästä.  
+  
+Sovellus on kloonattu, konfigurointi ja käynnistys on tehty [Käyttöohjeen](/FinanceTrackerApp/dokumentaatio/kayttoohje.md) mukaan. Käyttäjä on luotu, kirjauduttu, tehty tapahtuma, muokattu tapahtumaa, lopuksi poistettu tapahtuma ja kirjauduttu ulos.
+
+
+
 
 

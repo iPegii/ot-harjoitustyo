@@ -4,10 +4,10 @@
 
 ## Konfigurointi
 
-Laita sovelluksen juuritiedostoon tiedostot config.properties ja keys.properties kuten kuvassa.
+Laita sovelluksen juuritiedostoon tiedosto keys.properties kuten kuvassa.
 ![Tiedosto](/FinanceTrackerApp/dokumentaatio/kuvat/kayttoohje-part1.png)  
 
-config.properties sisältö on seuraava: 
+config.properties tiedostossa voi muuttaa tiedostojen nimiä, johon tiedot tallenneteaan. Sisältö on valmiiksi toimiva: 
 
 ```
 userFile=users.json   
@@ -34,7 +34,7 @@ Kun käyttäjän luominen on onnistunut, painetaan 'cancel'-nappia ja tämän j�
 
 ![Tiedosto](/FinanceTrackerApp/dokumentaatio/kuvat/kayttoohje-part4.png) 
 
-Nyt näytölle tulee sovelluksen päänäkymä, jossa näkyy tehdyt tapahtumat ja niiden tapahtumien hinnan summa. Vasemmassa yläkulmassa näkyvästä lomakkeesta voi lisätä uusia tapahtumia, päivämäärän pystyy valita 'clear'-napin yläpuolelta olevasta kalenterin-kuvakkeesta.  
+Nyt näytölle tulee sovelluksen päänäkymä, jossa näkyy tehdyt tapahtumat ja niiden tapahtumien hinnan summa. Vasemmassa yläkulmassa näkyvästä lomakkeesta voi lisätä uusia tapahtumia, 'clear'-napilla voidaan tyhjentää hinnan ja tapahtuman kentät. Päivämäärän pystyy valita 'clear'-napin yläpuolelta olevasta kalenterin-kuvakkeesta.  
 
 ![Tiedosto](/FinanceTrackerApp/dokumentaatio/kuvat/kayttoohje-part5.png) 
 
