@@ -35,8 +35,7 @@ import static org.junit.Assert.*;
  *
  * @author iPegii
  */
-
-public class FinanceTest {
+public class FinanceReaderTest {
     
     private FinanceDaoReader financeReader;
     private UserDaoReader userReader;
@@ -47,15 +46,16 @@ public class FinanceTest {
     UserService userService;
     FinanceService financeService;
     
-    
-    private File financeFile;
-    private File userFile;
-    
     private DaoService daoService;
     
     
-    public FinanceTest() {
+    private File financeFile;
+    private File userFile;
+
+    
+    public FinanceReaderTest() {
     }
+    
     @BeforeClass
     public static void testInitializing() {
         File folder = new File("testResources");
@@ -69,14 +69,16 @@ public class FinanceTest {
         if(financeFile.exists()) {
         try(PrintWriter financeClean = new PrintWriter(financeFile)) {
             } catch (Exception ex) {
-                System.out.println("Error: " + ex.getMessage());
+                System.out.println("Error cleaning financeTest: " + ex.getMessage());
             }
         }
         financeService.deleteAll();
+        
+        
         if(userFile.exists() && userFile.isFile()) {
             try(PrintWriter userClean = new PrintWriter(userFile)) {
             } catch (Exception ex) {
-                System.out.println("Error: " + ex.getMessage());
+                System.out.println("Error cleaning userTest: " + ex.getMessage());
             }
         }
         userService.deleteAll();
@@ -104,11 +106,17 @@ public class FinanceTest {
     
     @Test
     public void fileIsCreatedIfItDoesNotExist() {
-        this.financeFile = new File(financeFileSettings[0]+financeFileSettings[1]);
+        String fileFolder = financeReader.getFileName()[0];
+        String fileName = financeReader.getFileName()[1];
+        String filePath = fileFolder + fileName;
+        
+        assertEquals(filePath, financeFileSettings[0]+financeFileSettings[1]);
+        
+        this.financeFile = new File(filePath);
         financeFile.delete();
         
         try {
-            File file = new File(financeFileSettings[0]+financeFileSettings[1]);
+            File file = new File(filePath);
             financeReader.read();
             assertTrue(file.exists());
         } catch (IOException ex) {
@@ -123,78 +131,49 @@ public class FinanceTest {
         User user = new User("Pegi", "Pegii", userId, passwordHash);
         userReader.create(user);
         String financeId = new ObjectId().toString();
-        Finance finance = new Finance(financeId, 50, "test events are great", "01.01.2020", user.getId());
+        Finance finance = new Finance(financeId, 50, "test events are great", "2020-01-01", user.getId());
         financeReader.create(finance);
         
+        String correctFinance = "Finance{" + "id=" + financeId + ", price=" + 50.0 + ","
+                + " event=" + "test events are great" + ", date=" + "2020-01-01" + ", user=" + user.getId() + ","
+                        + " formattedPrice=" + "50 €" + '}';
+        
         Finance firstFromList = financeReader.getAll().get(0);
-        assertEquals(firstFromList.toString(),"Finance{" + "date=" + "01.01.2020" + ", event=" + "test events are great" + ","
-                + " price=" + "50.0" + ", id=" + financeId + ", user=" + userId + '}');
+        assertEquals(correctFinance, firstFromList.toString());
+        List<Finance> financeList = null;
         
         try(FileReader reader = new FileReader(financeFile)) {
             Gson gson = new Gson();
             //CHECKSTYLE.OFF: WhitespaceAround - Curly braces need whitespace, ignoring makes this more readable
             Type financeListType = new TypeToken<ArrayList<Finance>>(){}.getType();
             //CHECKSTYLE.ON: WhitespaceAround
-            List<Finance> financeList = gson.fromJson(reader, financeListType);
-            assertEquals(financeList.get(0).toString(), "Finance{" + "date=" + "01.01.2020" + ", event=" + "test events are great" + ","
-                + " price=" + "50.0" + ", id=" + financeId + ", user=" + userId + '}');
+            financeList = gson.fromJson(reader, financeListType);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+        
+        assertTrue(financeList != null);
+        assertEquals("Finance{" + "id="
+                    + financeId + ", price=" + 50.0 + ", event=" + "test events are great" + ","
+                    + " date=" + "2020-01-01" + ", user=" + user.getId() + ", formattedPrice=" + "50 €" +
+                    '}', financeList.get(0).toString());
      
     }
     
     @Test
     public void ifJsonFileIsNullThenFileIsNotCopied() {
-    String userId = new ObjectId().toString();
-    User user = new User("Pegi", "Pegii", userId);
-    userReader.create(user);
-    String financeId = new ObjectId().toString();
-    Finance finance = new Finance(financeId, 50, "test events are great", "01.01.2020", user.getId());
-    financeReader.create(finance);
+        String userId = new ObjectId().toString();
+        String passwordHash = daoService.createPasswordHash("Th1s1sV3r7G00d");
+        User user = new User("Pegi", "Pegii", userId, passwordHash);
+        userReader.create(user);
+        String financeId = new ObjectId().toString();
+        Finance finance = new Finance(financeId, 50, "test events are great", "2020-01-01", user.getId());
+        financeReader.create(finance);
         try {
             financeReader.read();
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
-    assertTrue(financeReader.getAll() != null);
-        
+        assertTrue(financeReader.getAll() != null);
     }
-    
-    @Test
-    public void correctNumberOfFinancesStored() {
-        String username = "Pegi";
-        String name = "Pegii";
-        daoService.createUser(username, name);
-        daoService.login("Pegi");
-        String id = daoService.loggedIn().getId();
-        daoService.createFinance(50, "Great test event 1", "2020.04.27", id);
-        daoService.createFinance(50, "Great test event 2", "2020.04.27", id);
-        daoService.createFinance(50, "Great test event 3", "2020.04.27", id);
-        daoService.createFinance(50, "Great test event 4", "2020.04.27", id);
-        
-        assertTrue("correct number of finances not created", daoService.getAll().size() == 4);
-        
-        FinanceDao financeTester= new FinanceDaoReader(financeFileSettings, financeService);
-        UserDao userTester = new UserDaoReader(userFileSettings, userService);
-        DaoService duplicateTester = new DaoService(userTester, financeTester);
-        duplicateTester.login(username);
-        
-        assertTrue("finances duplicated on launch",duplicateTester.getAll().size() == 4);
-    }
-    /*
-    @Test
-    public void fileCanBeWrittenOn() {
-        financeReader.create(new Finance("Pegi", 50, "Test event", "23.10.2020"));
-        Finance test = financeReader.getAll().get(0);
-        assertEquals(test.toString(), "Pegi;50;Test event;23.10.2020");
-    }
-*/
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
-
 }

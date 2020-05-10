@@ -19,10 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
         
 public class FinanceUi extends Application {
@@ -58,10 +55,10 @@ public class FinanceUi extends Application {
             System.out.println("Error: Failed accessing file: " + e.getMessage());
         } catch (Exception e) {    
             System.out.println("Error: Something unexpected happened: " + e.getMessage());
-            e.printStackTrace();
         }
         loginUi = new LoginUi(daoService);
         financeTableUi = new FinanceTableUi(daoService);
+        financeTableUi.setInstance(financeTableUi);
      //   daoService.
 
     }

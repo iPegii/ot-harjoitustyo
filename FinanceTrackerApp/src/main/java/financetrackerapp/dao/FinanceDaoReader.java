@@ -10,7 +10,6 @@ import java.util.List;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import financetrackerapp.mongodb.FinanceService;
-import financetrackerapp.mongodb.FinanceType;
 import java.io.FileReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
@@ -29,7 +28,7 @@ public class FinanceDaoReader implements FinanceDao {
         try {
             read();
         } catch (IOException ex) {
-            System.out.println("IO-error while reading finances file" + ex.getMessage());
+            System.out.println("IO-error while reading finances file: " + ex.getMessage());
         }
     }
     
@@ -67,8 +66,8 @@ public class FinanceDaoReader implements FinanceDao {
             JsonElement jsonTree = gson.toJsonTree(finances);
             gson.toJson(jsonTree, writer);
         } catch (Exception e) {
-            System.out.println("Error writing to finances file: " + e);
-            return "Error writing to finances file: " + e;
+            System.out.println("Error writing to finances file: " + e.getMessage());
+            return "Error writing to finances file: " + e.getMessage();
         } 
         return "New event added";
     }
@@ -83,16 +82,16 @@ public class FinanceDaoReader implements FinanceDao {
     
     public void updateFinance(Finance newFinance) {
         List<Finance> newList = new ArrayList<>();
-        for(Finance f: finances) {
-            if(f.getId().equals(newFinance.getId())) {
-               newList.add(newFinance);
+        for (Finance f: finances) {
+            if (f.getId().equals(newFinance.getId())) {
+                newList.add(newFinance);
             } else {
-               newList.add(f);
+                newList.add(f);
             }
         }
         finances = newList;
         save();
-}
+    }
     
     public String[] getFileName() {
         return financeSettings;
@@ -101,26 +100,16 @@ public class FinanceDaoReader implements FinanceDao {
     public FinanceService getDatabase() {
         return financeService;
     }
-    
-    /*
-    public List<Finance> findByDate(String date) {
-        String dateFormatted = date.trim();
-        return finances.stream()
-                .map(finance -> finance)
-                .filter(finance -> finance.getDate().equals(dateFormatted))
-                .collect(Collectors.toList());
-    }
-    */
-    
+
     public void deleteFinance(String id) {
         Finance financeToRemove = null;
-        for(Finance f: finances) {
-            if(f.getId().equals(id)) {
-              financeToRemove = f;
-              break;
+        for (Finance f: finances) {
+            if (f.getId().equals(id)) {
+                financeToRemove = f;
+                break;
             }
         }
-        if(financeToRemove != null) {
+        if (financeToRemove != null) {
             finances.remove(financeToRemove);
         } else {
             System.out.println("Finance not found: " + id);

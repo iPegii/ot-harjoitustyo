@@ -15,42 +15,43 @@ import static org.junit.Assert.*;
  *
  * @author iPegii
  */
-/*
+
 public class ObjectTest {
 
     @Test
     public void testCreatingFinanceIsCorrect() {
-        ObjectId id = new ObjectId();
-        ObjectId userId = new ObjectId();
-        Finance finance = new Finance(id,50,"Special coffee", "22.02.2019", userId);
-        assertTrue(finance.getId() == id);
+        String id = new ObjectId().toString();
+        String userId = new ObjectId().toString();
+        Finance finance = new Finance(id,50,"Special coffee", "2019-02-20", userId);
+        assertTrue(finance.getId().equals(id));
         assertTrue(finance.getPrice() == 50);
         assertEquals(finance.getEvent(), "Special coffee");
-        assertEquals(finance.getDate(), "22.02.2019");
-        assertTrue(finance.getUserId() == userId);
+        assertEquals(finance.getDate(), "2019-02-20");
+        assertTrue(finance.getUser().equals(userId));
+        assertEquals(finance.getFormattedPrice(), "50 €");
     }
     
     @Test
     public void testFinanceToString() {
-        Finance finance = new Finance("Kegi", 40,"Very nice tea", "23.02.2019");
-        assertEquals(finance.toString(), "Kegi;40;Very nice tea;23.02.2019");
+        String id = new ObjectId().toString();
+        String userId = new ObjectId().toString();
+        Finance finance = new Finance(id, 40,"Very nice tea", "2019-02-23", userId);
+        String goodToString = "Finance{" + "id=" + id + ","
+                + " price=" + "40.0" + ", event=" + "Very nice tea" + ","
+                + " date=" + "2019-02-23" + ", user=" + userId + ","
+                + " formattedPrice=" + "40 €" + '}';
+        assertEquals(finance.toString(), goodToString);
     }
     
     @Test
     public void testCreatingUserIsCorrect() {
-        User user = new User("gath20", "XxTrollerxX");
+        String userId = new ObjectId().toString();
+        String passwordHash = "sdfgojgfdfsug.42245dada";
+        User user = new User("gath20", "XxTrollerxX", userId, passwordHash);
         assertEquals(user.getUsername(), "gath20");
         assertEquals(user.getName(), "XxTrollerxX");
+        assertEquals(user.getId(), userId);
+        assertEquals(user.getPasswordHash(), passwordHash);
     }
-    
-    @Test
-    public void TestUserToString() {
-       User user = new User("zack", "SuchDogeMuchMeme");
-       assertEquals(user.toString(), "zack;SuchDogeMuchMeme");
-    }
-    
-
-    
     
 }
-*/

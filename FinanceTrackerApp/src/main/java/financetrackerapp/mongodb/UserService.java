@@ -8,8 +8,6 @@ package financetrackerapp.mongodb;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.client.*;
-import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.eq;
 import financetrackerapp.domain.User;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,7 +16,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 /**
@@ -43,9 +40,9 @@ public class UserService {
             keys = new FileInputStream("keys.properties");
             prop.load(keys);
         } catch (IOException e) {
-            System.out.println("Error while reading api key");
+            System.out.println("Error while reading api key: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Error while trying to get api key");
+            System.out.println("Error while trying to get api key: " + e.getMessage());
         } finally {
             try {
                 if (keys != null) {
@@ -70,7 +67,7 @@ public class UserService {
         connect();
         MongoDatabase database = client.getDatabase(selectedDatabase);
         MongoCollection<Document> users = database.getCollection("users");
-        
+        java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
         String id =  new ObjectId().toString();
         Document userDocument = new Document("_id", id);
         userDocument.append("username", username)
@@ -96,7 +93,7 @@ public class UserService {
                 userList.add(user);
             }
         } catch (Exception e) {
-            System.out.println("Error while retrieving documents from MongoDb");
+            System.out.println("Error while retrieving documents from MongoDb: " + e.getMessage());
         }
         disconnect();
         return userList;
@@ -108,24 +105,9 @@ public class UserService {
             java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE); 
             mongoClient = MongoClients.create(apiKey);
         } catch (Exception e) {
-            System.out.println("Error while connecting to MongoDb");
+            System.out.println("Error while connecting to MongoDb: " + e.getMessage());
         }
         this.client = mongoClient;
-    }
-    
-    public Document updateUser(String id, String username, String newName, String passwordHash) {
-        connect();
-        MongoDatabase database = client.getDatabase(selectedDatabase);
-        MongoCollection<Document> users = database.getCollection("users");
-        Bson filter = and(eq("_id", id), eq("password", passwordHash));
-        Document userDocument = new Document("_id", id);
-        userDocument.append("username", username)
-            .append("name", newName)
-            .append("password", passwordHash);
-            
-        Document result = users.findOneAndReplace(filter, userDocument);
-        disconnect();
-        return result;
     }
     
     public void disconnect() {

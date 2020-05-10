@@ -6,7 +6,6 @@
 package financetrackerapp.ui;
 
 import financetrackerapp.domain.DaoService;
-import financetrackerapp.domain.User;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -14,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
@@ -66,7 +66,7 @@ public class LoginUi {
       TextField loginUsernameField = new TextField();
       
       Label loginPasswordLabel = new Label("Password: ");
-      TextField loginPasswordField = new TextField();
+      PasswordField loginPasswordField = new PasswordField();
       
       Button loginButton = new Button("Login");
       Button createButtonSwitch = new Button("Create");
@@ -136,7 +136,7 @@ public class LoginUi {
       TextField nameField = new TextField();
       
       Label createPasswordLabel = new Label("Password: ");
-      TextField createPasswordField = new TextField();
+      PasswordField createPasswordField = new PasswordField();
       Tooltip passwordTip = new Tooltip();
       passwordTip.setText("The password must be minimum length of 8 charachers,"
               + "\n" + " the more complicated the password is the harder it is to crack!");

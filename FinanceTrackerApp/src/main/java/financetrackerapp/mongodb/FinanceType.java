@@ -11,8 +11,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import financetrackerapp.domain.Finance;
 import java.lang.reflect.Type;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.bson.json.JsonParseException;
 
 /**
@@ -37,7 +35,9 @@ public class FinanceType implements JsonDeserializer<Finance> {
         String event = financeJson.get("event").getAsString();
         String date = financeJson.get("date").getAsString();
         String user = financeJson.get("user").getAsString();
-        return new Finance(id, price, event, date, user);
+        Finance f = new Finance(id, price, event, date, user);
+        f.getFormattedPrice();
+        return f;
     }
     
     

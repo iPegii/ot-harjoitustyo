@@ -12,6 +12,7 @@ import financetrackerapp.mongodb.FinanceService;
 import financetrackerapp.mongodb.UserService;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -47,9 +48,9 @@ public class DaoService {
         if (userObject == null) {
             return "User not found";
         } else {
-            if(checkPasswordHash(userObject, password) == true) {
-            this.user = userObject;
-            return "true";
+            if (checkPasswordHash(userObject, password) == true) {
+                this.user = userObject;
+                return "true";
             } else {
                 return "Password was incorrect";
             }
@@ -108,17 +109,16 @@ public class DaoService {
     }
     
     public Boolean updateFinance(Finance finance) {
-        System.out.println("Updating");
-        String newPrice = String.valueOf(finance.getPrice());
+        Double newPrice = finance.getPrice();
         String id = finance.getId();
         String event = finance.getEvent();
         String date = finance.getDate();
         String userId = user.getId();
         FinanceService financeService = financeDao.getDatabase();
         Document result = financeService.updateFinance(id, newPrice, event, date, userId);
-        if(result.get("_id").equals(id)) {
-        System.out.println("Updating files");
-        financeDao.updateFinance(finance);
+        
+        if (result.get("_id").equals(id)) {
+            financeDao.updateFinance(finance);
         }
         return result.get("_id").equals(id);
     }
@@ -126,21 +126,11 @@ public class DaoService {
     public Boolean deleteFinance(String id) {
         FinanceService financeService = financeDao.getDatabase();
         Boolean result = financeService.deleteFinance(id, user.getId());
-        if(result == true) {
+        if (result == true) {
             financeDao.deleteFinance(id);
             return true;
         }
         return false;
-    }
-    
-    public boolean updateUser(String newName) {
-        String userId = user.getId();
-        String username = user.getUsername();
-        UserService userService = userDao.getDatabase();
-        String passwordHash = user.getPasswordHash();
-        
-        Document result = userService.updateUser(userId, username, newName, passwordHash);
-        return result.get("_id").equals(userId);
     }
     
     public List<Finance> getAllFinances() {
@@ -154,8 +144,8 @@ public class DaoService {
     }
     
     public List<User> getAllUsers() {
-            return userDao.getAll().stream()
-                .collect(Collectors.toList());
+        return userDao.getAll().stream()
+            .collect(Collectors.toList());
     }
     
     public String getBalance() {
@@ -169,23 +159,25 @@ public class DaoService {
     
     
     public static String formatPrice(Double price) {
-        Locale locale = new Locale("en", "UK");
+        Locale locale = new Locale("de", "DE");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(locale);
-        symbols.setDecimalSeparator(',');
-        symbols.setGroupingSeparator('.');
+        symbols.setDecimalSeparator('.');
+        symbols.setGroupingSeparator(',');
         String pattern = "###,###.##";
         DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
-        String formattedPrice = decimalFormat.format(price);
+        Currency eurCurrency = Currency.getInstance("EUR");
+        decimalFormat.setCurrency(eurCurrency);
+        String formattedPrice = decimalFormat.format(price) + " " + eurCurrency.getSymbol();
         return formattedPrice;
     }
     
-    public String createPasswordHash(String password) {
+    public static String createPasswordHash(String password) {
         String hash = BCrypt.withDefaults().hashToString(10, password.toCharArray());
         return hash;
     }
     
-    public Boolean checkPasswordHash(User userToLogin, String password) {
-    BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), userToLogin.getPasswordHash());
-    return result.verified;
+    public static Boolean checkPasswordHash(User userToLogin, String password) {
+        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), userToLogin.getPasswordHash());
+        return result.verified;
     }
 }

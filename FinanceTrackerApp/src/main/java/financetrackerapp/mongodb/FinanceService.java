@@ -10,9 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.mongodb.client.*;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Updates.set;
 import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.result.UpdateResult;
 import financetrackerapp.domain.Finance;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,8 +29,8 @@ import org.bson.types.ObjectId;
 
 
 /**
- * This class is used to communicate between MongoDb and the app,
- * more precisely to communicate with finances-collection
+ * This class is used to communicate between MongoDb - finances-collection and
+ * the app.
  */
 public class FinanceService {
     private String apiKey;
@@ -67,6 +65,10 @@ public class FinanceService {
  * Method creates finance to MongoDb, finances are always linked to user by id.
  * 
  * 
+     * @param price finance price
+     * @param event finance event
+     * @param date finance date
+     * @param userId user who created the finance
  * @return Created finance
  */
     public Finance create(double price, String event, String date, String userId) {
@@ -100,7 +102,7 @@ public class FinanceService {
                 financeList.add(finance);
             }
         } catch (Exception e) {
-            System.out.println("Error while retrieving documents from MongoDb");
+            System.out.println("Error while retrieving documents from MongoDb: " + e.getMessage());
         }
         disconnect();
         return financeList;
@@ -123,11 +125,10 @@ public class FinanceService {
         disconnect();
     }
     
-    public Document updateFinance(String id, String newPrice, String newEvent, String newDate, String user) {
+    public Document updateFinance(String id, Double newPrice, String newEvent, String newDate, String user) {
         connect();
         MongoDatabase database = client.getDatabase(selectedDatabase);
         MongoCollection<Document> finances = database.getCollection("finances");
-        System.out.println(newEvent + " : " + newPrice);
         Bson filter = and(eq("_id", id), eq("user", user));
         Document financeDocument = new Document("_id", id);
         financeDocument.append("price", newPrice)
@@ -135,7 +136,6 @@ public class FinanceService {
             .append("date", newDate)
             .append("user", user);
         Document result = finances.findOneAndReplace(filter, financeDocument);
-        System.out.println(result);
         disconnect();
         return result;
     }
@@ -154,24 +154,4 @@ public class FinanceService {
     public void disconnect() {
         client.close();
     }
-    
-    public Document getFinanceSchema() {
-        /*
-    Bson price = Filters.type("price", BsonType.STRING);
-    Bson event = Filters.regex("event", BsonType.STRING);
-    Bson date = Filters.type("password", BsonType.);
-    Bson id = Filters.type("password", BsonType.STRING);
-    
-
-    Bson validator = Filters.and(username, email, password);
-
-    ValidationOptions validationOptions = new ValidationOptions()
-                                          .validator(validator);
-    database.createCollection("accounts", new CreateCollectionOptions()
-                                          .validationOptions(validationOptions));
-*/
-        return new Document();
-    }
-    
-
 }

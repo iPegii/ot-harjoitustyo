@@ -26,7 +26,7 @@ public class UserDaoReader implements UserDao {
         try {
             read();
         } catch (IOException ex) {
-            System.out.println("Error while initializing users file");
+            System.out.println("Error while initializing users file: " + ex.getMessage());
         }
     }
     
@@ -45,7 +45,7 @@ public class UserDaoReader implements UserDao {
             try (FileReader reader = new FileReader(userSettings[0] + userSettings[1])) {
                 Gson gson = new Gson();
                 //CHECKSTYLE.OFF: WhitespaceAround - Curly braces need whitespaces, ignoring makes this more readable
-                Type userListType = new TypeToken<ArrayList<UserType>>(){}.getType();
+                Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
                 //CHECKSTYLE.ON: WhitespaceAround
                 List<User> userList = gson.fromJson(reader, userListType);
                 users.clear();
@@ -54,7 +54,7 @@ public class UserDaoReader implements UserDao {
                 }
                 init();
             } catch (IOException e) {
-                System.out.println("Error reading the users file: " + e);
+                System.out.println("Error reading the users file: " + e.getMessage());
             }
         }
     }
@@ -68,9 +68,9 @@ public class UserDaoReader implements UserDao {
             
             writer.close();
         } catch (JsonIOException e) {
-            System.out.println("Gson unable to write users file: " + e);
+            System.out.println("Gson unable to write users file: " + e.getMessage());
         } catch (IOException e) {
-            System.out.println("Error writing to the users file: " + e);
+            System.out.println("Error writing to the users file: " + e.getMessage());
         }
     }
     
@@ -91,21 +91,6 @@ public class UserDaoReader implements UserDao {
         return user;
     }
     
-    public void delete(String username) {
-        User userToRemove = null;
-        for (User user: users) {
-            if (user.getUsername().equals(username)) {
-                userToRemove = user;
-                break;
-            }
-        }
-        if (userToRemove != null) {
-            users.remove(userToRemove);
-        } else {
-            System.out.println("User not found: " + username);
-        }
-        save();
-    }
     
     public String[] getFileName() {
         return userSettings;
