@@ -53,5 +53,3 @@ Remove-nappia painamalla pääset näkymään jonka avulla varmistetaan, että h
 Lopuksi oikeasta yläkulmasta löytyy Logout-nappi, jonka avulla voit kirjautua ulos ja pääset takaisin kirjautumis-näkymään.  
 
 ![Tiedosto](/FinanceTrackerApp/dokumentaatio/kuvat/kayttoohje-part9.png)  
-
-

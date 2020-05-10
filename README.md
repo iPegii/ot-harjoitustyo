@@ -4,15 +4,21 @@ Sovelluksen tarkoituksena on mahdollistaa kulujen seuranta.
 
 
 ## Dokumentaatio
-### [Vaatimusmäärittely](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/vaatimusmaarittely.md)  
-### [Tuntikirjanpito](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/tuntikirjanpito.md)
 
-### [Arkkitehtuuri](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/arkkitehtuuri.md)
+### [Käyttöohje](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/kayttoohje.md) 
+
+### [Vaatimusmäärittely](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/vaatimusmaarittely.md)  
+
+### [Tuntikirjanpito](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/tuntikirjanpito.md)  
+
+### [Arkkitehtuuri](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/arkkitehtuuri.md)  
+
+### [Testaus](https://github.com/iPegii/ot-harjoitustyo/blob/master/FinanceTrackerApp/dokumentaatio/testausdokumentti.md)  
 
 
 ## Released
 
-### [Viikko 5 ](https://github.com/iPegii/ot-harjoitustyo/releases/tag/viikko5)
+### [Viikko 8 release](https://github.com/iPegii/ot-harjoitustyo/releases/tag/viikko8)
 
 
 ## Ennen ohjelman ajamista
@@ -41,8 +47,16 @@ Testikattavuusraportin luominen onnistuu komennolla
 
 `mvn jacoco:report`
 
-Checkstyle raporting luonti
+### Checkstyle
+
+Checkstyle reportin luonti
 
 `mvn jxr:jxr checkstyle:checkstyle`
+
+### Javadoc
+
+Javadoc luonti onnistuu seuraavalla komennolla:  
+  
+`mvn javadoc:javadoc`
 
 
