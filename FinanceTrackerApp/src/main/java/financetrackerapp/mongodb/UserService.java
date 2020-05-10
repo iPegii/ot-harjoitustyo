@@ -32,6 +32,7 @@ public class UserService {
  /**
  * This class is used to communicate between MongoDb and the app,
  * more precisely to communicate with users-collection
+     * @param selectedDatabase is the database in which the collections are created
  */
     public UserService(String selectedDatabase) {
         Properties prop = new Properties();
@@ -61,6 +62,9 @@ public class UserService {
  * Method creates user to MongoDb
  * 
  * 
+     * @param username username of the user
+     * @param name name of the user
+     * @param passwordHash hash of user's password
  * @return Created user
  */
     public User create(String username, String name, String passwordHash) {
@@ -79,6 +83,12 @@ public class UserService {
         return user;
     }
     
+    
+/**
+ * Method retrieves all the users from MongoDB
+ * 
+ * @return retrieved list of User-objects
+ */
     public List<User> getAll() {
         List<User> userList = new ArrayList<>();
         connect();

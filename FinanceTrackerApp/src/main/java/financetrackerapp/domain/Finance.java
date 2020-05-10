@@ -2,7 +2,6 @@
 package financetrackerapp.domain;
 
 import com.google.gson.annotations.Expose;
-import java.util.Objects;
 
 
 public class Finance {
@@ -47,6 +46,7 @@ public class Finance {
 
  /**
  * returns objects price formatted
+     * @return returns the price formatted
  * @see financetrackerapp.domain.DaoService#formatPrice(java.lang.Double) 
  */
     public String getFormattedPrice() {

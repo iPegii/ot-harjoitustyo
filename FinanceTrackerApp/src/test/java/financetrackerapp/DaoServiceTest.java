@@ -5,8 +5,6 @@
  */
 package financetrackerapp;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import financetrackerapp.dao.FinanceDao;
 import financetrackerapp.dao.FinanceDaoReader;
 import financetrackerapp.dao.UserDao;
@@ -17,15 +15,9 @@ import financetrackerapp.domain.User;
 import financetrackerapp.mongodb.FinanceService;
 import financetrackerapp.mongodb.UserService;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-import org.bson.types.ObjectId;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

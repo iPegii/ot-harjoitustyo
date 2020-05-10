@@ -5,21 +5,12 @@
  */
 package financetrackerapp;
 
-import com.mongodb.client.MongoClient;
-import financetrackerapp.dao.FinanceDao;
-import financetrackerapp.dao.FinanceDaoReader;
-import financetrackerapp.dao.UserDao;
-import financetrackerapp.dao.UserDaoReader;
-import financetrackerapp.domain.DaoService;
 import financetrackerapp.domain.Finance;
 import financetrackerapp.mongodb.FinanceService;
-import financetrackerapp.mongodb.UserService;
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.List;
 import org.bson.types.ObjectId;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -66,7 +57,7 @@ public class FinanceServiceTest {
     public void deleteWorks() {
         String id = new ObjectId().toString();
         Finance fcreated = financeService.create(30, "Nice test event", "2020-02-02", id);
-        Boolean removed = financeService.deleteFinance(fcreated.getId(), id);
+        Boolean removed = financeService.deleteFinance(fcreated.getId());
         assertTrue(removed);
         List<Finance> fList = financeService.getAll();
         assertTrue(fList.isEmpty());

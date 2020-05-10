@@ -46,9 +46,6 @@ public class FinanceReaderTest {
     UserService userService;
     FinanceService financeService;
     
-    private DaoService daoService;
-    
-    
     private File financeFile;
     private File userFile;
 
@@ -99,9 +96,6 @@ public class FinanceReaderTest {
         this.financeFile = new File(financeFileSettings[0]+financeFileSettings[1]);
         this.userFile = new File(userFileSettings[0]+userFileSettings[1]);
         
-        FinanceDao financeDao= new FinanceDaoReader(financeFileSettings, financeService);
-        UserDao userDao = new UserDaoReader(userFileSettings, userService);
-        this.daoService = new DaoService(userDao, financeDao);
     }
     
     @Test
@@ -127,7 +121,7 @@ public class FinanceReaderTest {
     @Test
     public void readerCreatesFinanceToListAndToFile() {
         String userId = new ObjectId().toString();
-        String passwordHash = daoService.createPasswordHash(userId);
+        String passwordHash = DaoService.createPasswordHash(userId);
         User user = new User("Pegi", "Pegii", userId, passwordHash);
         userReader.create(user);
         String financeId = new ObjectId().toString();
@@ -163,7 +157,7 @@ public class FinanceReaderTest {
     @Test
     public void ifJsonFileIsNullThenFileIsNotCopied() {
         String userId = new ObjectId().toString();
-        String passwordHash = daoService.createPasswordHash("Th1s1sV3r7G00d");
+        String passwordHash = DaoService.createPasswordHash("Th1s1sV3r7G00d");
         User user = new User("Pegi", "Pegii", userId, passwordHash);
         userReader.create(user);
         String financeId = new ObjectId().toString();

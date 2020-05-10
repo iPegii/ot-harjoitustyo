@@ -37,6 +37,7 @@ public class DaoService {
  * the User-object logged in. 
  * 
  * @param username Username of the user
+ * @param password password of the user
  * 
  * @see financetrackerapp.domain.User
 
@@ -71,7 +72,7 @@ public class DaoService {
  * @param name Nickname for the user
  * @param password password of the user
  * 
- * @see financetrackerapp.mongodb.UserService#create(String,String)
+ * @see financetrackerapp.mongodb.UserService#create(String,String,String)
  * 
  * @return luotu käyttäjä tai null
  */
@@ -108,6 +109,17 @@ public class DaoService {
         return "Couldn't add this";   
     }
     
+    
+     /**
+ * Method takes price and name, 
+ * new User-object is created if unique
+ * 
+ * 
+     * @param finance is the finance that replaces old one
+     * @return Boolean returns true if update was succesful, otherwise
+     * returns false
+ * @see financetrackerapp.mongodb.FinanceService#updateFinance(String, Double, String, String, String)
+ */
     public Boolean updateFinance(Finance finance) {
         Double newPrice = finance.getPrice();
         String id = finance.getId();
@@ -125,7 +137,7 @@ public class DaoService {
     
     public Boolean deleteFinance(String id) {
         FinanceService financeService = financeDao.getDatabase();
-        Boolean result = financeService.deleteFinance(id, user.getId());
+        Boolean result = financeService.deleteFinance(id);
         if (result == true) {
             financeDao.deleteFinance(id);
             return true;

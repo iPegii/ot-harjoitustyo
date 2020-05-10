@@ -108,7 +108,13 @@ public class FinanceService {
         return financeList;
     }
     
-    public Boolean deleteFinance(String id, String userId) {
+    
+     /** Method matches the finance id and removes if it exists
+ * 
+     * @param id id of the finance to be deleted
+     * @return returns True if finance was deleted, otherwise false
+ */
+    public Boolean deleteFinance(String id) {
         connect();
         MongoDatabase database = client.getDatabase(selectedDatabase);
         MongoCollection<Document> finances = database.getCollection("finances");
